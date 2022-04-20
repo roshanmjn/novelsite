@@ -1,0 +1,25 @@
+.userList{
+   flex: 5;
+   display:flex;
+   flex-direction: column;
+   align-items: center;
+
+   
+}
+.userListHeader{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+
+   align-items: center;
+}
+
+/* .userListHeader a{
+font-size: 18px;
+color: rgb(250, 250, 250);
+background: rgb(16, 165, 86);
+border-radius: 10px;
+text-align: center;
+padding: 10px;
+text-decoration: none;
+} */

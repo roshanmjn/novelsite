@@ -1,0 +1,49 @@
+.login{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   height: 100vh;
+}
+.loginWrapper{
+   margin-top: 20vh;
+   display: flex;
+   
+}
+
+.loginForm{
+   background-color: rgb(28, 11, 95);
+   border: 1px solid rgb(99, 99, 235);
+   border-radius: 10px;
+   padding: 20px;
+}
+
+.loginFormForm{
+   display: flex;
+   flex-direction: column;
+}
+
+.loginLabel{
+   font-size: 16px;
+   font-weight: 500;
+   color: #fff;
+}
+
+.loginInput{
+   width: 300px;
+   font-size: 16px;
+   padding: 10px;   
+   border-radius: 10px;
+   border: 1px solid white;
+   margin-bottom: 30px;
+   
+}
+.loginButton{
+   font-size: 20px;
+   background-color: rgb(40, 18, 128);
+   color: white;
+   margin: 0 auto;
+   width:150px;
+   height: 55px;
+   border-radius: 10px;
+   border: 1px solid white;
+}

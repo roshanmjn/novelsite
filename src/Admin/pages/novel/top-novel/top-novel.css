@@ -1,0 +1,68 @@
+.topNovel{
+   flex: 5;
+}
+
+.thisItem{
+   padding: 4px 8px;
+   cursor:pointer;
+   background-color: rgb(115, 114, 114);
+   margin-right: 10px;
+   border-radius: 5px;
+   color: rgb(9, 9, 9);
+   font-weight: 500;
+}
+ .thisItem:active{
+   background-color: rgb(9, 9, 9);
+   color: rgb(176, 173, 173);
+   
+ }
+
+ .thisInput{
+    outline: none !important;
+    background-color: rgb(115, 114, 114) !important;
+    color: rgb(9, 9, 9);
+ }
+ .thisInput::placeholder{
+    color:rgb(9, 9, 9);
+ }
+
+ .thisInput:focus{
+    border-color: none !important;
+    outline: none !important;
+    box-shadow: none;
+ }
+.image-container{
+   position: relative;
+}
+ .item-image{
+    /* position:relative !important; */
+    width: 100px;
+    height: 100%;
+    object-fit:cover;
+    border-radius: 10px;
+ }
+
+ .item-status{
+    position: absolute !important;
+    top:0px;
+    left: 0px;
+    z-index: 999;
+    color: white;
+    font-size: 10px;
+    background-color: rgb(117, 116, 116,.5);
+    padding: 1px 3px;
+    border-radius: 10px 0 0 0;
+
+ }
+ .item-title{
+    font-weight: 600;
+    font-size: 17px;
+    margin-bottom: 5px;
+ }
+ 
+ .item-description p{
+   padding-top: 5px;
+   text-align: justify;
+   overflow: hidden;
+   text-overflow: ellipsis;
+ }

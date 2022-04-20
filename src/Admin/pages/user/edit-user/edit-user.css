@@ -1,0 +1,61 @@
+.editUser{
+   flex:4;
+   display: flex;
+   justify-content: space-around;
+   flex-direction: row;
+}
+
+.editUserWrapper{
+   width: 50%;
+   display: flex;
+   flex-direction: column;   
+}
+
+.editUserHeader{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+}
+.editUserCancel{
+   display: block;
+   background: rgb(133, 30, 30);
+   padding: 8px 16px;
+   color: rgb(223, 223, 223);
+   border-radius: 10px;
+   cursor: pointer;
+}
+
+.editUserForm{
+   width: 60%;
+   margin-right:30px ;
+}
+.userForm{
+   display: flex;
+   flex-direction: column;
+   
+}
+.userFormLabel{
+   font-size: 15px;
+   font-weight: bold;
+   color: rgb(91, 92, 93);
+}
+
+.userFormInput{
+   font-size: 25px;
+   padding: 5px 10px;
+   border-radius: 10px;
+   border: 1px solid gray;
+   outline: none;
+   margin-bottom: 20px;
+}
+.userFormButton{
+   color:white;
+   background: rgb(29, 151, 66);
+   width: 100px;
+   height: 50px;
+   border-radius: 10px;
+   border: 1px solid rgb(21, 154, 61);
+   
+}
+

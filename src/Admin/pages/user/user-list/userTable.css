@@ -1,0 +1,38 @@
+.userTable{
+   display: flex;
+   justify-content: center;
+   
+}
+
+
+.userTableTable{
+   border-collapse: collapse;
+   max-width: 1100px;
+   width:100%;
+   margin: 2rem auto;
+   border-radius: 10px;
+}
+
+.userTableHead, .userTableData{
+   padding: 8px;
+   border: 1px solid #ddd;
+}
+
+.userTableData a{
+   list-style-type: none;
+   text-decoration: none;
+   color: black;
+   
+}
+.userEditButtonIcon,.userDeleteButtonIcon{
+   font-size: 30px !important;
+   margin-right: 10px;
+   
+}
+.userEditButtonIcon{
+   color:rgb(25, 98, 162) !important;
+   
+}
+.userDeleteButtonIcon{
+   color: rgb(200, 53, 53) !important;
+}
