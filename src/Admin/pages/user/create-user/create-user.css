@@ -28,34 +28,14 @@
 
 .createUserForm{
    width: 60%;
-   margin-right:30px ;
+   /* margin-right:30px ; */
 }
-.userForm{
-   display: flex;
-   flex-direction: column;
-   
+.createUserForm .form-control{
+   font-size: 18px !important;
 }
-.userFormLabel{
-   font-size: 15px;
-   font-weight: bold;
-   color: rgb(91, 92, 93);
+.createUserLabel,.createUserForm .form-check-label,.createUserForm .btn  {
+   font-size: 18px !important;
 }
 
-.userFormInput{
-   font-size: 25px;
-   padding: 5px 10px;
-   border-radius: 10px;
-   border: 1px solid gray;
-   outline: none;
-   margin-bottom: 20px;
-}
-.userFormButton{
-   color:white;
-   background: rgb(29, 151, 66);
-   width: 100px;
-   height: 50px;
-   border-radius: 10px;
-   border: 1px solid rgb(21, 154, 61);
-   
-}
+
 

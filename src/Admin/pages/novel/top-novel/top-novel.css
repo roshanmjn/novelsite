@@ -1,7 +1,11 @@
 .topNovel{
    flex: 5;
 }
-
+.item-container{
+   
+   /* border: 1px solid red !important; */
+   min-height: 150px;
+}
 .thisItem{
    padding: 4px 8px;
    cursor:pointer;
@@ -35,8 +39,7 @@
    position: relative;
 }
  .item-image{
-    /* position:relative !important; */
-    width: 100px;
+    max-width: 100px;
     height: 100%;
     object-fit:cover;
     border-radius: 10px;
@@ -46,7 +49,7 @@
     position: absolute !important;
     top:0px;
     left: 0px;
-    z-index: 999;
+    /* z-index: 999; */
     color: white;
     font-size: 10px;
     background-color: rgb(117, 116, 116,.5);
@@ -57,12 +60,29 @@
  .item-title{
     font-weight: 600;
     font-size: 17px;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
+ }
+ .item-genre{
+    /* border:1px solid gray; */
+    display:inline;
+    border-radius: 5px;
+    padding: 2px 5px;
+    margin-right: 3px;
+    color: white;
+    background: rgb(50, 50, 50);
+    font-size: 15px;
  }
  
+ .item-description {
+   height: 70px;
+   /* border: 1px solid red !important; */
+   margin-bottom: 5px;
+ }
  .item-description p{
-   padding-top: 5px;
-   text-align: justify;
+   display: -webkit-box;
+   -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
    overflow: hidden;
    text-overflow: ellipsis;
  }

@@ -1,3 +1,4 @@
+
 .login{
    display: flex;
    flex-direction: column;
@@ -13,8 +14,8 @@
 .loginForm{
    background-color: rgb(28, 11, 95);
    border: 1px solid rgb(99, 99, 235);
-   border-radius: 10px;
-   padding: 20px;
+   border-radius: 1rem;
+   padding: 2rem;
 }
 
 .loginFormForm{
@@ -23,27 +24,38 @@
 }
 
 .loginLabel{
-   font-size: 16px;
+   font-size: 1.7rem;
    font-weight: 500;
-   color: #fff;
+   color: #fff !important;
 }
 
 .loginInput{
-   width: 300px;
-   font-size: 16px;
-   padding: 10px;   
+   width: 30rem;
+   font-size: 1.7rem;
+   padding: 1rem;   
    border-radius: 10px;
-   border: 1px solid white;
-   margin-bottom: 30px;
+   border: 1px solid white !important;
+   margin-bottom: 3rem;
    
 }
 .loginButton{
-   font-size: 20px;
+   font-size: 2rem;
    background-color: rgb(40, 18, 128);
-   color: white;
+   color: white !important;
    margin: 0 auto;
-   width:150px;
-   height: 55px;
+   width:15rem;
+   height: 5.5rem;
    border-radius: 10px;
    border: 1px solid white;
+}
+
+/*!!!!!---ADMIN LAYOUT STYLING---!!!!!!*/
+.adminLayout{
+   display: flex;
+}
+
+.outletLayout{
+   flex:6;
+   margin: 0;
+   padding: 0px;
 }

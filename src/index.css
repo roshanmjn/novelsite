@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
 }
 
 :root {
@@ -15,13 +18,7 @@ html {
   font-size: 62.5%;
 }
 
-* {
-  text-decoration: none;
-  color: #000;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+
 
 h1,
 h2,
@@ -88,9 +85,8 @@ h6 {
 
 /*---------------------------------------home first row css starts
                         ----------------------------------------------------------*/
-.carousel-caption h5,
-p {
-  color: white !important;
+.carousel-caption h5,.carousel-caption p{
+  color:white !important;
 }
 .carousel-caption h5 {
   font-size: 2rem;

@@ -8,12 +8,11 @@ const Login = () => {
     <>
       <div className="container">
         <div className="container-wrapper login-form-wrapper d-flex flex-column justify-content-between ">
-          {" "}
           <form className="login-form">
             <div className="col-8 col-lg-4 mx-auto">
               <h4 className="login-heading">Log in</h4>
               <div className="mb-3">
-                <label for="login-email" className="form-label login-label">
+                <label htmlFor="login-email" className="form-label login-label">
                   Email
                 </label>
                 <input
@@ -25,7 +24,10 @@ const Login = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="login-password" className="form-label login-label">
+                <label
+                  htmlFor="login-password"
+                  className="form-label login-label"
+                >
                   Password
                 </label>
                 <input
@@ -36,7 +38,7 @@ const Login = () => {
                 />
               </div>
               <div className="mb-3 form-check">
-                <label className="form-label" for="login-check">
+                <label className="form-label" htmlFor="login-check">
                   Don't have an account?<Link to="/signup">Sign up</Link>
                 </label>
               </div>

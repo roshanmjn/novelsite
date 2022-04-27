@@ -2,7 +2,9 @@ import { React, useState } from "react";
 import { NavLink } from "react-bootstrap";
 import { BrowserRouter } from "react-router-dom";
 import img1 from "../images/img1.jpg";
+import { TabTitle } from "../utils/GeneralFunctions";
 const Novels = () => {
+  TabTitle("Novels");
   const [activeLanguages, setIsActiveLanguages] = useState("0");
   const [activeStatus, setIsActiveStatus] = useState("0");
   const [activeSort, setIsActiveSort] = useState("0");

@@ -10,6 +10,7 @@ import {
   TrendingUp,
   Whatshot,
 } from "@material-ui/icons";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 export default function Sidebar() {
@@ -21,19 +22,19 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <NavLink to="/" activeClassName="active-link">
+            <NavLink to="/admin">
               <li className="sidebarListItem ">
                 <Home className="sidebarIcon" />
                 Home
               </li>
             </NavLink>
-            <NavLink to="/news">
+            <NavLink to="/admin/news">
               <li className="sidebarListItem">
                 <NewReleases className="sidebarIcon" />
                 News
               </li>
             </NavLink>
-            <NavLink to="/popular">
+            <NavLink to="/admin/popular">
               <li className="sidebarListItem">
                 <Whatshot className="sidebarIcon" />
                 Popular
@@ -44,13 +45,13 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <NavLink to="/users">
+            <NavLink to="/admin/users">
               <li className="sidebarListItem ">
                 <People className="sidebarIcon" />
                 Users
               </li>
             </NavLink>
-            <NavLink to="/users/create" activeClassName="active-link">
+            <NavLink to="/admin/users/create">
               <li className="sidebarListItem">
                 <GroupAdd className="sidebarIcon" />
                 Authors Create
@@ -61,25 +62,25 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Novels</h3>
           <ul className="sidebarList">
-            <NavLink to="/novels" activeClassName="active-link">
+            <NavLink to="/admin/novels">
               <li className="sidebarListItem">
                 <Home className="sidebarIcon" />
                 Home
               </li>
             </NavLink>
-            <NavLink to="/novels/upload" activeClassName="active-link">
+            <NavLink to="/admin/novels/upload">
               <li className="sidebarListItem ">
                 <Edit className="sidebarIcon" />
                 Upload New
               </li>
             </NavLink>
-            <NavLink to="/novels/top" activeClassName="active-link">
+            <NavLink to="/admin/novels/top">
               <li className="sidebarListItem">
                 <TrendingUp className="sidebarIcon" />
                 Top Novels
               </li>
             </NavLink>
-            <NavLink to="/novels/genre" activeClassName="active-link">
+            <NavLink to="/admin/novels/genre">
               <li className="sidebarListItem">
                 <Toc className="sidebarIcon" />
                 Genre

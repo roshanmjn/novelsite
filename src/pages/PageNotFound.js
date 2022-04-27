@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { TabTitle } from "../utils/GeneralFunctions";
 
 const PageNotFound = () => {
+  TabTitle("Page not found");
   let navigate = useNavigate();
   return (
     <div>

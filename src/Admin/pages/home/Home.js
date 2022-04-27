@@ -1,6 +1,9 @@
+import { TabTitle } from "../../../utils/GeneralFunctions";
 import "./home.css";
+import React from "react";
 
 export default function Home() {
+  TabTitle("Dashboard");
   return (
     <div className="home">
       <div className="homeWrapper">

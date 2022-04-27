@@ -8,12 +8,14 @@ const Signup = () => {
     <>
       <div className="container">
         <div className="container-wrapper signup-form-wrapper d-flex flex-column justify-content-between ">
-          {" "}
           <form className="signup-form">
             <div className="col-8 col-lg-4 mx-auto">
               <h4 className="signup-heading">Sign up</h4>
               <div className="mb-3">
-                <label for="signup-email" className="form-label signup-label">
+                <label
+                  htmlFor="signup-email"
+                  className="form-label signup-label"
+                >
                   Username
                 </label>
                 <input
@@ -25,7 +27,10 @@ const Signup = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="signup-email" className="form-label signup-label">
+                <label
+                  htmlFor="signup-email"
+                  className="form-label signup-label"
+                >
                   Email
                 </label>
                 <input
@@ -38,7 +43,7 @@ const Signup = () => {
               </div>
               <div className="mb-3">
                 <label
-                  for="signup-password"
+                  htmlFor="signup-password"
                   className="form-label signup-label"
                 >
                   Password
@@ -52,7 +57,7 @@ const Signup = () => {
               </div>
               <div className="mb-3">
                 <label
-                  for="signup-confirm-password"
+                  htmlFor="signup-confirm-password"
                   className="form-label signup-label"
                 >
                   Confirm password
@@ -67,10 +72,13 @@ const Signup = () => {
               <div className="mb-3 form-check">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   id="exampleCheck1"
                 />
-                <label className="form-label signup-label" for="signup-check">
+                <label
+                  className="form-label signup-label"
+                  htmlFor="signup-check"
+                >
                   I have read and agree to ‘Privacy Policy’ and ‘Terms of Use’.
                 </label>
               </div>

@@ -1,4 +1,5 @@
 import "./upload-novel.css";
+import React from "react";
 export default function UploadNovel() {
   const onSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ export default function UploadNovel() {
                 placeholder="Enter name for novel"
                 className="form-control"
                 id="novelName"
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             <div className="form-group">

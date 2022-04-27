@@ -1,10 +1,13 @@
 import axios from "axios";
+import React from "react";
 import { useState } from "react";
 
 import { NavItem } from "react-bootstrap";
+import { TabTitle } from "../../../utils/GeneralFunctions";
 import "./AdminLogin.css";
 
 function AdminLogin() {
+  TabTitle("Admin Login");
   const [input, setInput] = useState({});
   const [error, setError] = useState({ state: "false", message: "" });
 
