@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-bootstrap";
-import Novels from "./Novels";
+import Novels from "./novels-sort/Novels";
 import { Link, useNavigate } from "react-router-dom";
 import Home from "./Home";
 

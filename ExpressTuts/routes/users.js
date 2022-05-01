@@ -4,7 +4,7 @@ const req = require("express/lib/request");
 const conn = require("../database");
 const router = Router();
 
-router.use("/admin/users", (req, res, next) => {
+router.use((req, res, next) => {
   console.log("REQ made to /users route");
   next();
 });

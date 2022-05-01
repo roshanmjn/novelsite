@@ -3,6 +3,20 @@ const req = require("express/lib/request");
 const res = require("express/lib/response");
 const router = Router();
 const conn = require("../database");
+const multer = require("multer");
+const path = require("path");
+
+//image storage destination
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "Images");
+  },
+  filename: (req, file, callback) => {
+    console.log(file);
+    callback(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage: storage });
 
 router.use((req, res, next) => {
   console.log("REQ made to /novels route");
@@ -24,7 +38,16 @@ router.get("/", (req, res) => {
     }
   });
 });
-
+router.get("/genre", (req, res) => {
+  const query = "SELECT title FROM tbl_genre";
+  conn.query(query, (err, rows) => {
+    try {
+      res.status(200).json(rows);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+});
 //TO SELECT SPECIFIC NOVEL
 router.get("/:id", (req, res) => {
   const edit_id = req.params.id;
@@ -101,4 +124,8 @@ router.put("/edit/:id", (req, res) => {
   );
 });
 
+//UPLOAD  NOVEL
+router.post("/upload", upload.single("image_upload"), (req, res) => {
+  res.send("image uploaded");
+});
 module.exports = router;

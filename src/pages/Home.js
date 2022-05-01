@@ -1,20 +1,126 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import img1 from "../images/img1.jpg";
 import img2 from "../images/img2.png";
 import img3 from "../images/img3.png";
 import img4 from "../images/img4.png";
 import { TabTitle } from "../utils/GeneralFunctions";
-import { imagedata, PopularItem } from "./PopularItem";
-import { imageWeekData, PopularItemWeek } from "./PopularItemWeek";
+// import { imagedata, PopularItem } from "./PopularItem";
+// import { imageWeekData, PopularItemWeek } from "./PopularItemWeek";
 
 const Home = () => {
   TabTitle("Home");
+  const [novel, setNovel] = useState([]);
+  const [ongoing, setOngoing] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
+  useEffect(async () => {
+    //FOR WEEKLY NOVEL  UPDATE
+    const response = await axios.get(
+      "http://localhost:5000/novels/popular/weekly"
+    );
+    if (response.status === 200) {
+      // console.log(response.data);
+      setNovel(response.data);
+    }
+    //FOR WEEKLY NOVEL  UPDATE
+    const response1 = await axios.get(
+      "http://localhost:5000/novels/popular/ongoing"
+    );
+    if (response1.status === 200) {
+      // console.log(response1.data);
+      setOngoing(response1.data);
+    }
+    //FOR Announcements
+    const response2 = await axios.get(
+      "http://localhost:5000/novels/announcements"
+    );
+    if (response2.status === 200) {
+      // console.log(response2.data);
+      setAnnouncements(response2.data);
+    }
+  }, []);
+
+  //ANNOUNCEMENTS
+  const Announcements = (item, idx) => {
+    console.log(item);
+    return (
+      <div key={idx} className="row announcement-row">
+        <div
+          className="col-12 col-lg-12 announcement-item p-"
+          style={{ overflow: "hidden" }}
+        >
+          <p
+            className=" font-weight-bold"
+            style={{
+              lineHeight: "40px",
+              fontWeight: "500",
+              fontSize: "20px",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              height: "40px",
+            }}
+          >
+            {item.item.Title}
+          </p>
+          <p
+            className=" font-weight-bold"
+            style={{
+              lineHeight: "50px",
+              fontSize: "17px",
+              fontWeight: "500",
+              color: "white",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {item.item.description}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  //POPULAR THIS WEEK MODEL
+  const PopluarThisWeek = (item, idx) => {
+    // console.log(item);
+    return (
+      <div
+        key={idx}
+        className="col-4 col-lg-2 d-flex flex-column justify-content-between align-items-center weekly-popular "
+      >
+        <img src={item.image} alt="asd" />
+        <span className="display-5">{item.item.name}</span>
+        <span className="display-6 ">{item.item.author}</span>
+      </div>
+    );
+  };
+  const PopularOngoingReleases = (item, idx) => {
+    // console.log(item);
+    return (
+      <div
+        key={idx}
+        className="col-4 col-lg-3 releases-part-two d-flex flex-column justify-content-center align-items-center"
+      >
+        <img
+          src={item.image}
+          alt={item.image}
+          className="releases-image-small "
+        />
+        <h5>{item.item.name}</h5>
+      </div>
+    );
+  };
   return (
     <>
       <header className="m-5">
         <section className="container main-hero-container ">
           {/* First row start */}
-          <div className="row home-first-row">
+          <div
+            className="row home-first-row"
+            style={{ maxHeight: "400px", overflow: "hidden" }}
+          >
             <div className="col-12 col-lg-6 header-left-side d-flex justify-content-center flex-column align-items-start">
               <h6 className="display-2">Editor's Choice</h6>
               {/* Carousel Start */}
@@ -22,6 +128,7 @@ const Home = () => {
                 id="carouselNovel"
                 className="carousel slide carousel-text-color"
                 data-bs-ride="carousel"
+                style={{ overflow: "hidden", maxHeight: "300px" }}
               >
                 <div className="carousel-indicators">
                   <button
@@ -51,33 +158,53 @@ const Home = () => {
                     aria-label="Slide 4"
                   ></button>
                 </div>
-                <div className="carousel-inner">
-                  <div className="carousel-item active">
-                    <img src={img1} className="d-block w-100" alt="image 1" />
+                <div
+                  className="carousel-inner"
+                  style={{ width: "100%", height: "100%" }}
+                >
+                  <div
+                    className="carousel-item active"
+                    style={{ width: "100%", height: "100%" }}
+                  >
+                    <img
+                      src={img1}
+                      className="d-block w-100"
+                      alt="..."
+                      style={{ objectFit: "cover" }}
+                    />
                     <div className="carousel-caption d-none d-md-block">
-                      <h5>1. Amiya and Doktah</h5>
-                      <p>Doktah Chillin with Amiya.</p>
+                      <h5>2. Image 2</h5>
+                      <p>This is image 2</p>
                     </div>
                   </div>
-                  <div className="carousel-item">
-                    <img src={img2} className="d-block w-100" alt="..." />
+                  <div
+                    className="carousel-item"
+                    style={{ width: "100%", height: "100%" }}
+                  >
+                    <img
+                      src={img1}
+                      className="d-block w-100"
+                      alt="..."
+                      style={{ objectFit: "cover" }}
+                    />
                     <div className="carousel-caption d-none d-md-block">
-                      <h5>2. Amiya Serious Mode</h5>
-                      <p>Runnnnnnn</p>
+                      <h5>2. Image 2</h5>
+                      <p>This is image 2</p>
                     </div>
                   </div>
-                  <div className="carousel-item">
-                    <img src={img3} className="d-block w-100" alt="..." />
+                  <div
+                    className="carousel-item"
+                    style={{ width: "100%", height: "100%" }}
+                  >
+                    <img
+                      src={img1}
+                      className="d-block w-100"
+                      alt="..."
+                      style={{ objectFit: "cover" }}
+                    />
                     <div className="carousel-caption d-none d-md-block">
-                      <h5>3. Date with the Bunny.</h5>
-                      <p>Doktah and Amiya on a date.</p>
-                    </div>
-                  </div>
-                  <div className="carousel-item">
-                    <img src={img4} className="d-block w-100" alt="..." />
-                    <div className="carousel-caption d-none d-md-block">
-                      <h5>4. Oh no Amiya</h5>
-                      <p>She's hurt and real bad.</p>
+                      <h5>2. Image 2</h5>
+                      <p>This is image 2</p>
                     </div>
                   </div>
                 </div>
@@ -114,16 +241,9 @@ const Home = () => {
             >
               <h6 className="display-2">Announcements</h6>
               <div className="col-12 d-flex flex-column justify-content-between flex-grow-1">
-                <div className="row announcement-row">
-                  <div className="col-12 col-lg-12 announcement-item">
-                    upper level
-                  </div>
-                </div>
-                <div className="row announcement-row">
-                  <div className="col-12 col-lg-12 announcement-item">
-                    lower level
-                  </div>
-                </div>
+                {announcements.map((item, index) => {
+                  return <Announcements item={item} />;
+                })}
               </div>
             </div>
           </div>
@@ -138,7 +258,7 @@ const Home = () => {
                   <div className="col-12 releases-part-one d-flex flex-column ">
                     <img src={img2} alt="amiya" className="releases-image" />
                     <div className="col-12 releases-description">
-                      <h5>Title</h5>
+                      <h5>The Legend of Vice</h5>
                       <p>
                         Description Lorem ipsum dolor sit amet consectetur
                         adipisicing elit. Ab ea soluta eaque dolores. Ad dolorum
@@ -153,16 +273,8 @@ const Home = () => {
 
                 {/* -------------------Second row second part START-------------- */}
                 <div className="col-12 col-lg-8 second-row-releases-item d-flex flex-wrap justify-content-between">
-                  {/*item 1-8*/}
-                  {imagedata.map((value, index) => {
-                    return (
-                      <PopularItem
-                        key={index}
-                        imgsrc={value.imgsrc}
-                        title={value.title}
-                        alt={value.title}
-                      />
-                    );
+                  {ongoing.map((item, index) => {
+                    return <PopularOngoingReleases item={item} image={img3} />;
                   })}
                 </div>
                 {/* -------------------Second row second part END-------------- */}
@@ -174,15 +286,8 @@ const Home = () => {
             <div className="col-12 d-flex flex-column">
               <h6 className="display-2 mt-5">Popular This Week</h6>
               <div className="col-12 d-flex flex-row justify-content-between flex-wrap">
-                {imageWeekData.map((value, index) => {
-                  return (
-                    <PopularItemWeek
-                      key={index}
-                      imgsrc={value.imgsrc}
-                      title={value.title}
-                      rating={value.rating}
-                    />
-                  );
+                {novel.map((item) => {
+                  return <PopluarThisWeek item={item} image={img1} />;
                 })}
               </div>
             </div>

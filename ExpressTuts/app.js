@@ -1,25 +1,41 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
 const app = express();
 const cors = require("cors");
 const conn = require("./database");
+const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
 
-const userRoute = require("./routes/users");
-const novelRoute = require("./routes/novels");
+//import routes
+const auth = require("./authentication/auth");
+const adminUserRoute = require("./routes/users");
+const adminNovelRoute = require("./routes/novels");
+const userNovels = require("./routes/userNovels");
+const userLogin = require("./routes/userLogin");
+const userSignup = require("./routes/userSignup");
+const userMiddleware = require("./middleware/users");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.json());
 
-app.use("/admin/users", userRoute);
-app.use("/admin/novels", novelRoute);
+//REDIRECT ROUTES
+app.use("/admin/users", adminUserRoute);
+app.use("/admin/novels", adminNovelRoute);
+app.use(userNovels);
+app.use(userLogin);
+app.use(userSignup);
 // const conn = createPool({
 //   host: "localhost",
 //   user: "root",
 //   password: "",
 //   database: "react_db",
 // });
+
+//AUTHENTICATION
 
 app.get("/", (req, res) => {
   const query = "select * from admin";
@@ -31,6 +47,10 @@ app.get("/", (req, res) => {
     }
   });
 });
+
+app.post("/admin/login", auth.adminLogin);
+
+app.post("/register", auth.register);
 
 app.listen(5000, () => {
   console.log("port 5k");
