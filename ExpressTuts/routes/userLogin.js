@@ -10,6 +10,12 @@ router.use("/login", (req, res, next) => {
   next();
 });
 
+//handle errors
+const handleErrors = (err) => {
+  console.log(err);
+  let errors = { email: "", password: "" };
+};
+
 router.post("/login", userMiddleware.validateLogin, (req, res) => {
   conn.query(
     `SELECT * FROM tbl_users WHERE username =${conn.escape(
@@ -18,10 +24,11 @@ router.post("/login", userMiddleware.validateLogin, (req, res) => {
     (err, result) => {
       if (err) {
         throw err;
-        return res.status(400).send({ message: err });
+        return res.status(400).json({ message: err });
       }
       if (!result.length) {
-        return res.status(400).send({
+        handleErrors(  )
+        return res.status(400).json({
           message: "username or password incorrect -username",
         });
       }
@@ -60,7 +67,8 @@ router.post("/login", userMiddleware.validateLogin, (req, res) => {
       // );
 
       if (req.body.password == result[0]["password"]) {
-        const token = jwt.sign(
+        const token = "gg";
+        const token1 = jwt.sign(
           {
             username: result[0].username,
             userId: result[0].id,
@@ -70,9 +78,9 @@ router.post("/login", userMiddleware.validateLogin, (req, res) => {
         );
         return res
           .status(200)
-          .send({ message: "Logged in", token, user: result[0] });
+          .json({ message: "Logged in", token, user: result[0] });
       } else {
-        return res.status(300).send({
+        return res.status(300).json({
           message: "username or password incorrect -pass",
         });
       }

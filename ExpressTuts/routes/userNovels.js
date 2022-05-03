@@ -5,7 +5,7 @@ const conn = require("../database");
 const userMiddleware = require("../middleware/users");
 
 //route= /novels
-router.use("/novels", userMiddleware.isLoggedIn, (req, res, next) => {
+router.use("/novels", (req, res, next) => {
   console.log(req.userData);
   // console.log("REQ made to /userNovels route");
   next();

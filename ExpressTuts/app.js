@@ -17,10 +17,10 @@ const userLogin = require("./routes/userLogin");
 const userSignup = require("./routes/userSignup");
 const userMiddleware = require("./middleware/users");
 
-app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors());
 
 //REDIRECT ROUTES
 app.use("/admin/users", adminUserRoute);

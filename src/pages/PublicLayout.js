@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
-import Novels from "./Novels";
+import Novels from "./novels-sort/Novels";
 import Bookmarks from "./Bookmarks";
 import PageNotFound from "./PageNotFound";
 import Login from "./login/Login";
