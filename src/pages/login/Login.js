@@ -1,25 +1,33 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { NavLink } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./login.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // console.log(location.state);
     try {
-      const response = await axios.post("http://localhost:5000/login", {
-        username,
-        password,
-      });
-      console.log(response);
-      navigate("/bookmarks", { replace: true });
+      const response = await axios.post(
+        "http://localhost:5000/login",
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      );
+      if (window.history.state && window.history.idx > 0) {
+        navigate(-1);
+      } else {
+        navigate("/", { replace: true });
+      }
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404) {
@@ -27,7 +35,6 @@ const Login = () => {
         } else {
           toast.error(err.response.data.message);
         }
-
         // console.log(err.response.status);
         // console.log(err.response.headers);
       }

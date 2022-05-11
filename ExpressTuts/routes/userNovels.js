@@ -2,17 +2,17 @@ const { Router } = require("express");
 const router = Router();
 const conn = require("../database");
 
-const userMiddleware = require("../middleware/users");
+const userMiddleware = require("../middleware/authMiddleware");
 
 //route= /novels
 router.use("/novels", (req, res, next) => {
-  console.log(req.userData);
-  // console.log("REQ made to /userNovels route");
+  console.log("REQ made to /userNovels route");
   next();
 });
 
 router.get("/novels", (req, res) => {
-  //   res.send("ok");
+  //   res.send("ok");-+
+
   const query = "SELECT * FROM tbl_novel";
   conn.query(query, (err, rows) => {
     if (!err) {
@@ -34,7 +34,7 @@ router.get("/novels", (req, res) => {
 
 //WEEKLY POPULAR
 router.get("/novels/popular/weekly", (req, res) => {
-  const query = "select * from tbl_novel  ORDER BY start_date DESC limit 6";
+  const query = "select * from tbl_novel  ORDER BY start_date DESC limit 5";
   conn.query(query, (err, rows) => {
     try {
       res.json(rows);

@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const conn = require("../database");
-const userMiddleware = require("../middleware/users.js");
+const userMiddleware = require("../middleware/authMiddleware.js");
 
 router.use("/signup", (req, res, next) => {
   console.log("REQ made to /userSignup route");

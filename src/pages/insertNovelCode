@@ -1,0 +1,69 @@
+
+  useEffect(() => {
+    var id = 41;
+    const inte = setInterval(() => {
+      if (id === 61) clearInterval(inte);
+      console.log(id);
+      axios.get(`https://gutendex.com/books/${id}`).then((response) => {
+        if (response.status === 200) {
+          // console.log(response.data);
+          const title = response.data.title;
+          const author =
+            response.data.authors.length != 0
+              ? response.data.authors[0].name
+              : "Unnamed";
+          const image = response.data.formats["image/jpeg"];
+          const genre = response.data.subjects.toString();
+          const siteUrl = response.data.formats["text/plain; charset=utf-8"]
+            ? response.data.formats["text/plain; charset=utf-8"]
+            : response.data.formats["text/plain"]
+            ? response.data.formats["text/plain"]
+            : response.data.formats["text/plain; charset=us-ascii"];
+
+          axios
+            .post(
+              "http://localhost:5000/bookmarks",
+              { title, author, image, genre, siteUrl },
+              {
+                withCredentials: true,
+              }
+            )
+            .then((res) => {
+              console.log(res.data);
+            });
+        }
+      });
+
+      id = id + 1;
+    }, 1000);
+    return () => {
+      clearInterval(inte);
+    };
+  }, []);
+
+
+
+
+  //server side
+  router.post("/bookmarks", (req, res) => {
+  const title = req.body.title;
+  const author = req.body.author;
+  const image = req.body.image;
+  const genre = req.body.genre;
+  const siteUrl = req.body.siteUrl;
+  const statusArray = ["ongoing", "completed", "hiatus"];
+  const status = statusArray[[Math.floor(Math.random() * statusArray.length)]];
+  // res.send(req.body);
+  const query =
+    "INSERT INTO tbl_novel SET name= ?,genre=?, author=?,image=?,description=?,status=?,start_date=now();";
+  conn.query(
+    query,
+    [title, genre, author, image, siteUrl, status],
+    (err, result) => {
+      if (err) {
+        throw err;
+      }
+      return res.status(201).send({ message: "novel inserted !" });
+    }
+  );
+});

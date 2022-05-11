@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-bootstrap";
 import Novels from "./novels-sort/Novels";
 import { Link, useNavigate } from "react-router-dom";
 import Home from "./Home";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const Navi = () => {
+  const [cookie] = useCookies([]);
   let navigate = useNavigate();
+  const [login, setLogin] = useState(true);
+  // console.log(login);
+
+  const logout = () => {
+    try {
+      axios
+        .get("http://localhost:5000/logout", { withCredentials: true })
+        .then(() => {
+          navigate("/", { replace: true });
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <section className="navbar-bg">
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container">
-            <Link className="navbar-brand" to="/home">
+            <Link className="navbar-brand" to="/">
               Novel Site
             </Link>
             <button
@@ -39,15 +56,15 @@ const Navi = () => {
                     Sites
                   </Link>
                 </li>
+
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/bookmarks"
+                  >
                     Bookmarks
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Resources
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <form className="d-flex">
@@ -57,15 +74,24 @@ const Navi = () => {
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <Link to="/login">
+                {login ? (
                   <button
                     className="btn btn-style"
                     type="submit"
-                    // onClick={() => navigate("/login")}
+                    onClick={() => {
+                      logout();
+                      setLogin(false);
+                    }}
                   >
-                    Login
+                    Logout
                   </button>
-                </Link>
+                ) : (
+                  <Link to="/login">
+                    <button className="btn btn-style" type="submit">
+                      Login
+                    </button>
+                  </Link>
+                )}
               </form>
             </div>
           </div>

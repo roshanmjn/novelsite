@@ -27,15 +27,37 @@ const Novels = () => {
         key={idx}
       >
         <div className="col-4 series-search-image">
-          <img src={img4} alt="image#1" />
+          <img src={item.item.image} alt="image#1" />
         </div>
         <div className="col-8 d-flex flex-column justify-content-between series-search-textbox">
-          <div className="col-12 series-search-title">{item.item.name}</div>
+          <div
+            className="col-12 series-search-title"
+            style={{
+              fontSize: "18px",
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {item.item.name}
+          </div>
           <div className="col-12 series-search-rating">{item.item.rating}</div>
           <div className="col-12 series-search-description">
             {item.item.description}
           </div>
-          <div className="col-12 genre-tags d-flex flex-row series-search-tags">
+          <div
+            className="col-12 genre-tags d-flex flex-row series-search-tags"
+            style={{
+              fontSize: "14px",
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             <NavLink>{item.item.genre}</NavLink>
           </div>
         </div>

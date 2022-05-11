@@ -5,6 +5,10 @@ import img2 from "../images/img2.png";
 import img3 from "../images/img3.png";
 import img4 from "../images/img4.png";
 import { TabTitle } from "../utils/GeneralFunctions";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
+
 // import { imagedata, PopularItem } from "./PopularItem";
 // import { imageWeekData, PopularItemWeek } from "./PopularItemWeek";
 
@@ -21,6 +25,8 @@ const Home = () => {
     if (response.status === 200) {
       // console.log(response.data);
       setNovel(response.data);
+    } else {
+      setNovel([]);
     }
     //FOR WEEKLY NOVEL  UPDATE
     const response1 = await axios.get(
@@ -29,6 +35,8 @@ const Home = () => {
     if (response1.status === 200) {
       // console.log(response1.data);
       setOngoing(response1.data);
+    } else {
+      setOngoing([]);
     }
     //FOR Announcements
     const response2 = await axios.get(
@@ -37,12 +45,14 @@ const Home = () => {
     if (response2.status === 200) {
       // console.log(response2.data);
       setAnnouncements(response2.data);
+    } else {
+      setAnnouncements();
     }
   }, []);
 
   //ANNOUNCEMENTS
   const Announcements = (item, idx) => {
-    console.log(item);
+    // console.log(item);
     return (
       <div key={idx} className="row announcement-row">
         <div
@@ -84,15 +94,34 @@ const Home = () => {
 
   //POPULAR THIS WEEK MODEL
   const PopluarThisWeek = (item, idx) => {
-    // console.log(item);
+    console.log(item);
     return (
       <div
         key={idx}
         className="col-4 col-lg-2 d-flex flex-column justify-content-between align-items-center weekly-popular "
+        style={{ marginRight: "15px", border: "0px solid red" }}
       >
-        <img src={item.image} alt="asd" />
-        <span className="display-5">{item.item.name}</span>
-        <span className="display-6 ">{item.item.author}</span>
+        <div className="col-12">
+          <img
+            src={item.item.image}
+            alt={item.item.image}
+            style={{ width: "100%", objectFit: "inherit" }}
+          />
+        </div>
+
+        <h5
+          style={{
+            fontSize: "18px",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {item.item.name}
+        </h5>
+        <h5>{item.item.author}</h5>
       </div>
     );
   };
@@ -104,11 +133,22 @@ const Home = () => {
         className="col-4 col-lg-3 releases-part-two d-flex flex-column justify-content-center align-items-center"
       >
         <img
-          src={item.image}
-          alt={item.image}
+          src={item.item.image}
+          alt={item.item.image}
           className="releases-image-small "
         />
-        <h5>{item.item.name}</h5>
+        <h5
+          style={{
+            fontSize: "16px",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {item.item.name}
+        </h5>
       </div>
     );
   };
@@ -119,121 +159,32 @@ const Home = () => {
           {/* First row start */}
           <div
             className="row home-first-row"
-            style={{ maxHeight: "400px", overflow: "hidden" }}
+            style={{
+              maxHeight: "400px",
+              overflow: "",
+              border: "1px solid green",
+            }}
           >
-            <div className="col-12 col-lg-6 header-left-side d-flex justify-content-center flex-column align-items-start">
-              <h6 className="display-2">Editor's Choice</h6>
-              {/* Carousel Start */}
-              <div
-                id="carouselNovel"
-                className="carousel slide carousel-text-color"
-                data-bs-ride="carousel"
-                style={{ overflow: "hidden", maxHeight: "300px" }}
-              >
-                <div className="carousel-indicators">
-                  <button
-                    type="button"
-                    data-bs-target="#carouselNovel"
-                    data-bs-slide-to="0"
-                    className="active"
-                    aria-current="true"
-                    aria-label="Slide 1"
-                  ></button>
-                  <button
-                    type="button"
-                    data-bs-target="#carouselNovel"
-                    data-bs-slide-to="1"
-                    aria-label="Slide 2"
-                  ></button>
-                  <button
-                    type="button"
-                    data-bs-target="#carouselNovel"
-                    data-bs-slide-to="2"
-                    aria-label="Slide 3"
-                  ></button>
-                  <button
-                    type="button"
-                    data-bs-target="#carouselNovel"
-                    data-bs-slide-to="3"
-                    aria-label="Slide 4"
-                  ></button>
-                </div>
-                <div
-                  className="carousel-inner"
-                  style={{ width: "100%", height: "100%" }}
-                >
-                  <div
-                    className="carousel-item active"
-                    style={{ width: "100%", height: "100%" }}
-                  >
-                    <img
-                      src={img1}
-                      className="d-block w-100"
-                      alt="..."
-                      style={{ objectFit: "cover" }}
-                    />
-                    <div className="carousel-caption d-none d-md-block">
-                      <h5>2. Image 2</h5>
-                      <p>This is image 2</p>
-                    </div>
-                  </div>
-                  <div
-                    className="carousel-item"
-                    style={{ width: "100%", height: "100%" }}
-                  >
-                    <img
-                      src={img1}
-                      className="d-block w-100"
-                      alt="..."
-                      style={{ objectFit: "cover" }}
-                    />
-                    <div className="carousel-caption d-none d-md-block">
-                      <h5>2. Image 2</h5>
-                      <p>This is image 2</p>
-                    </div>
-                  </div>
-                  <div
-                    className="carousel-item"
-                    style={{ width: "100%", height: "100%" }}
-                  >
-                    <img
-                      src={img1}
-                      className="d-block w-100"
-                      alt="..."
-                      style={{ objectFit: "cover" }}
-                    />
-                    <div className="carousel-caption d-none d-md-block">
-                      <h5>2. Image 2</h5>
-                      <p>This is image 2</p>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  className="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselNovel"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Previous</span>
-                </button>
-                <button
-                  className="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselNovel"
-                  data-bs-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Next</span>
-                </button>
+            <div
+              className="col-12 col-lg-6 d-flex flex-column"
+              style={{ padding: "" }}
+            >
+              <div className="col-12 ">
+                <h6 className="display-2">Editor's Choice</h6>
               </div>
-              {/* Carousel End */}
+              {/* carousel start */}
+
+              <Swiper
+                className="col-12 flex-grow-1"
+                style={{ border: "1px solid red" }}
+              >
+                <SwiperSlide>Slide 1</SwiperSlide>
+                <SwiperSlide>Slide 2</SwiperSlide>
+                <SwiperSlide>Slide 3</SwiperSlide>
+                <SwiperSlide>Slide 4</SwiperSlide>
+              </Swiper>
+
+              {/* carousel end */}
             </div>
             <div
               className="announcement col-12 col-lg-6 d-flex flex-column justify-content-between "
@@ -241,9 +192,10 @@ const Home = () => {
             >
               <h6 className="display-2">Announcements</h6>
               <div className="col-12 d-flex flex-column justify-content-between flex-grow-1">
-                {announcements.map((item, index) => {
-                  return <Announcements item={item} />;
-                })}
+                {announcements &&
+                  announcements.map((item, index) => {
+                    return <Announcements item={item} />;
+                  })}
               </div>
             </div>
           </div>
@@ -273,9 +225,12 @@ const Home = () => {
 
                 {/* -------------------Second row second part START-------------- */}
                 <div className="col-12 col-lg-8 second-row-releases-item d-flex flex-wrap justify-content-between">
-                  {ongoing.map((item, index) => {
-                    return <PopularOngoingReleases item={item} image={img3} />;
-                  })}
+                  {ongoing &&
+                    ongoing.map((item, index) => {
+                      return (
+                        <PopularOngoingReleases item={item} image={img3} />
+                      );
+                    })}
                 </div>
                 {/* -------------------Second row second part END-------------- */}
               </div>
@@ -286,9 +241,10 @@ const Home = () => {
             <div className="col-12 d-flex flex-column">
               <h6 className="display-2 mt-5">Popular This Week</h6>
               <div className="col-12 d-flex flex-row justify-content-between flex-wrap">
-                {novel.map((item) => {
-                  return <PopluarThisWeek item={item} image={img1} />;
-                })}
+                {novel &&
+                  novel.map((item) => {
+                    return <PopluarThisWeek item={item} image={img1} />;
+                  })}
               </div>
             </div>
           </div>
