@@ -1,10 +1,21 @@
 const { Router } = require("express");
-const req = require("express/lib/request");
-const res = require("express/lib/response");
 const router = Router();
 const conn = require("../database");
 const multer = require("multer");
 const path = require("path");
+const { adminLoggedIn } = require("../middleware/authAdmin");
+const {
+  novelGenreController,
+  allNovelController,
+  specificNovelController,
+  deleteNovelController,
+  insertNovelController,
+  updateNovelController,
+  deleteGenreController,
+  updateGenreController,
+  insertGenreController,
+  specificGenreController,
+} = require("../controllers/adminNovelController");
 
 //image storage destination
 const storage = multer.diskStorage({
@@ -18,114 +29,48 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.use((req, res, next) => {
+router.use("/admin/novels", (req, res, next) => {
   console.log("REQ made to /novels route");
   next();
 });
+//GET ALL NOVELS
+router.get("/admin/novels/", adminLoggedIn, allNovelController);
 
-//check 'if empty'  function
-function isEmptyObject(obj) {
-  return !Object.keys(obj).length;
-}
+//GET NOVEL GENRE
+router.get("/admin/novels/genre", novelGenreController);
 
-router.get("/", (req, res) => {
-  const query = "SELECT * FROM tbl_novel";
-  conn.query(query, (err, rows) => {
-    try {
-      res.status(200).send(rows);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-});
-router.get("/genre", (req, res) => {
-  const query = "SELECT title FROM tbl_genre";
-  conn.query(query, (err, rows) => {
-    try {
-      res.status(200).json(rows);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-});
-//TO SELECT SPECIFIC NOVEL
-router.get("/:id", (req, res) => {
-  const edit_id = req.params.id;
-  const query = "SELECT * FROM tbl_novel WHERE id=?";
-  conn.query(query, [edit_id], (err, rows) => {
-    try {
-      res.status(200).send(rows);
-    } catch (err) {
-      res.status(404).json({ status: false, message: "Not found" });
-    }
-  });
-});
+//GET SPECIFIC NOVEL
+router.get("/admin/novels/:id", specificNovelController);
+
+//GET SPECIFIC GENRE
+router.get("/admin/novels/genre/:id", specificGenreController);
 
 //DELETE NOVEL
-router.delete("/:id", (req, res) => {
-  const query = "DELETE FROM tbl_novel WHERE id = ?";
-  const delete_id = req.params.id;
-  conn.query(query, delete_id, (err, result) => {
-    if (!err) {
-      res.send(result);
-    } else {
-      console.log(`error:${err}`);
-    }
-  });
-});
+router.delete("/admin/novels/:id", deleteNovelController);
 
 //INSERT NOVEL
-router.post("/upload", (req, res) => {
-  const {
-    id,
-    name,
-    genre,
-    author,
-    chapters,
-    description,
-    status,
-    rating,
-    start_date,
-  } = req.body;
-  query =
-    "INSERT INTO tbl_novel(name, genre, author, chapters, description, status, rating, start_date) VALUES(?,?,?,?,?,?,?,?)";
-  conn.query(
-    query,
-    [name, genre, author, chapters, description, status, rating, start_date],
-    (err, rows) => {
-      if (!err) {
-        res.send(`id:${rows.insertId} successfully inserted`);
-      } else {
-        res.send(err);
-      }
-    }
-  );
-});
+router.post("/admin/novels/upload", insertNovelController);
 
 //EDIT NOVEL
-router.put("/edit/:id", (req, res) => {
-  const update_id = req.params.id;
-  // res.send(update_id);
-  const { id, author, chapters, description, genre, image, name, status } =
-    req.body;
-  const query =
-    "UPDATE tbl_novel SET author=? ,chapters=?, description=?, genre=?, image=?, name=?, status=? WHERE id=?";
-  conn.query(
-    query,
-    [author, chapters, description, genre, image, name, status, update_id],
-    (err, rows) => {
-      if (!err) {
-        res.status(200).json(`id:${update_id} successfully updated`);
-      } else {
-        res.status(400).send(err);
-        // .json({ status: false, message: `Failed to update: ${err}` });
-      }
-    }
-  );
-});
+router.put("/admin/novels/edit/:id", updateNovelController);
 
-//UPLOAD  NOVEL
-router.post("/upload", upload.single("image_upload"), (req, res) => {
-  res.send("image uploaded");
-});
+//GENRE
+
+//EDIT GENRE
+router.put("/admin/novels/genre/:id", updateGenreController);
+
+//INSERT GENRE
+router.post("/admin/novels/genre/insert", insertGenreController);
+
+//DELETE GENRE
+router.delete("/admin/novels/genre/:id", deleteGenreController);
+
+//UPLOAD  GENRE
+router.post(
+  "/admin/novels/uploadI",
+  upload.single("image_upload"),
+  (req, res) => {
+    res.send("image uploaded");
+  }
+);
 module.exports = router;

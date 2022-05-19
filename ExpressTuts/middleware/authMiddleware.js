@@ -1,5 +1,3 @@
-const req = require("express/lib/request");
-const res = require("express/lib/response");
 const jwt = require("jsonwebtoken");
 const conn = require("../database");
 module.exports = {
@@ -89,7 +87,7 @@ module.exports = {
     } else {
       res
         .status(400)
-        .send({ message: "your session is not valid", isLoggedIn: false });
+        .send({ message: "Login to continue session", isLoggedIn: false });
     }
   },
 };

@@ -1,8 +1,6 @@
 /*------------------ADMIN SIDE IMPORTS-------------*/
-import React from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
-import AdminLogin from "./pages/login/AdminLogin";
-
+import React, { useEffect } from "react";
+import { Routes, Route, Outlet, Navigate, useNavigate } from "react-router-dom";
 import Topbar from "./components/topbar/Topbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import AdminHome from "./pages/home/Home";
@@ -15,8 +13,21 @@ import UploadNovel from "./pages/novel/upload/upload-novel";
 import TopNovel from "./pages/novel/top-novel/top-novel";
 import EditUser from "./pages/user/user-list/EditUser";
 import { EditNovel } from "./pages/novel/edit/edit-novel";
+import { useCookies } from "react-cookie";
+import ListGenre from "./pages/novel/genre/list-genre";
+import CreateGenre from "./pages/novel/genre/create-genre";
+import EditGenre from "./pages/novel/genre/edit-genre";
 
 const WithNav = () => {
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+  // console.log(cookies);
+  useEffect(() => {
+    if (!cookies.jwtadmin) {
+      navigate("/admin/login");
+    }
+  }, [cookies, navigate, removeCookie]);
+
   return (
     <>
       <Topbar />
@@ -38,7 +49,11 @@ const WithNav = () => {
                 <Route path="upload" element={<UploadNovel />} />
                 <Route path="edit/:id" element={<EditNovel />} />
                 <Route path="top" element={<TopNovel />} />
-                <Route path="genre" element={<Novel />} />
+                <Route path="genre">
+                  <Route index element={<ListGenre />} />
+                  <Route path="create" element={<CreateGenre />} />
+                  <Route path="edit/:id" element={<EditGenre />} />
+                </Route>
               </Route>
               <Route path="*" element={<p style={{ flex: "5" }}>Oops!!</p>} />
             </Route>

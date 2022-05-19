@@ -1,4 +1,12 @@
 const { Router } = require("express");
+const {
+  displayNovelsController,
+  weeklyPopularController,
+  newOngoingController,
+  editorsChoiceController,
+  newAnnounceController,
+  selectedNovelsController,
+} = require("../controllers/userNovelsController");
 const router = Router();
 const conn = require("../database");
 
@@ -10,63 +18,21 @@ router.use("/novels", (req, res, next) => {
   next();
 });
 
-router.get("/novels", (req, res) => {
-  //   res.send("ok");-+
-
-  const query = "SELECT * FROM tbl_novel";
-  conn.query(query, (err, rows) => {
-    if (!err) {
-      res.status(200).send(rows);
-    }
-  });
-});
-// //Editors Choice
-// router.get("/novels/popular/editors", (req, res) => {
-//   const query = "select * from tbl_novel WHERE ORDER BY start_date ASC limit 8";
-//   conn.query(query, (err, rows) => {
-//     try {
-//       res.json(rows);
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   });
-// });
-
-//WEEKLY POPULAR
-router.get("/novels/popular/weekly", (req, res) => {
-  const query = "select * from tbl_novel  ORDER BY start_date DESC limit 5";
-  conn.query(query, (err, rows) => {
-    try {
-      res.json(rows);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-});
-//NEW ONGOING
-router.get("/novels/popular/ongoing", (req, res) => {
-  const query =
-    "select * from tbl_novel WHERE status = 'ongoing' ORDER BY start_date ASC limit 8";
-  conn.query(query, (err, rows) => {
-    try {
-      res.json(rows);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-});
+//GET ALL NOVELS
+router.get("/novels", displayNovelsController);
 
 //NEW ANNOUNCEMENT
-router.get("/novels/announcements", (req, res) => {
-  const query =
-    "select * from tbl_announcements  ORDER BY created_date ASC limit 2";
-  conn.query(query, (err, rows) => {
-    try {
-      res.json(rows);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-});
+router.get("/novels/announcements", newAnnounceController);
+
+router.get("/novels/:id", selectedNovelsController);
+
+//WEEKLY POPULAR
+router.get("/novels/popular/weekly", weeklyPopularController);
+
+//NEW ONGOING
+router.get("/novels/popular/ongoing", newOngoingController);
+
+//NEW EDITORS CHOICES
+router.get("/novels/popular/editors", editorsChoiceController);
 
 module.exports = router;

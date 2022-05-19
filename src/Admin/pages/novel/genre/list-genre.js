@@ -1,41 +1,42 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Visibility, Edit, DeleteForever } from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { TabTitle } from "../../../utils/GeneralFunctions";
+import { TabTitle } from "../../../../utils/GeneralFunctions";
 
-export default function Novel() {
-  TabTitle("All Novels");
-  var today = new Date();
+export default function ListGenre() {
+  TabTitle("Novel Genre");
   const navigate = useNavigate();
-  const [novelsList, setNovelsList] = useState([]);
-  //DISPLAY NOVEL LIST
+  const [genreList, setGenreList] = useState([]);
+
   useEffect(() => {
-    getNovel();
+    getGenre();
   }, []);
 
-  const getNovel = async () => {
+  const getGenre = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/novels", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "http://localhost:5000/admin/novels/genre",
+        {
+          withCredentials: true,
+        }
+      );
       if (response.status === 200) {
-        setNovelsList(response.data);
+        setGenreList(response.data);
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const deleteNovel = async (id, name) => {
-    if (window.confirm(`Are you sure you want to delete novel: ${name} ?`)) {
+  const deleteGenre = async (id, name) => {
+    if (window.confirm(`Are you sure you want to delete genre: ${name} ?`)) {
       const response = await axios.delete(
-        `http://localhost:5000/admin/novels/${id}`
+        `http://localhost:5000/admin/novels/genre/${id}`
       );
       if (response.status === 200) {
-        window.alert(`${name} has been deleted !!`);
-        getNovel();
+        window.alert(`ID:${id}, Genre:${name} has been deleted !!`);
+        getGenre();
       } else {
         window.alert(`Delete failed !!`);
       }
@@ -50,9 +51,11 @@ export default function Novel() {
           <button
             className="btn btn-success"
             style={{ fontSize: "17px" }}
-            onClick={() => navigate("/admin/novels/upload")}
+            onClick={() => {
+              navigate("/admin/novels/genre/create");
+            }}
           >
-            Upload
+            Create New
           </button>
         </div>
         <div className="col-12 mt-5">
@@ -65,18 +68,14 @@ export default function Novel() {
                 }}
               >
                 <th>ID</th>
-                <th>Novel Name</th>
+                <th>Genre Title</th>
+                <th>Description</th>
                 <th>Status</th>
-                <th>Current Chapter</th>
-                <th>Genre</th>
-                <th>Rating</th>
-                <th>Author</th>
-                <th>Published Date</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {novelsList.map((item, idx) => {
+              {genreList.map((item, idx) => {
                 return (
                   <tr
                     key={idx}
@@ -87,14 +86,10 @@ export default function Novel() {
                     }}
                   >
                     <td>{item.id}</td>
-                    <td>{item.name}</td>
+                    <td>{item.title}</td>
+                    <td>{item.description}</td>
                     <td>{item.status}</td>
-                    <td>{item.chapters}</td>
-                    <td>{item.genre}</td>
-                    <td>{item.rating}</td>
-                    <td>{item.author}</td>
-                    {/* <td>{`${today.getFullYear()}/${today.getMonth()}/${today.getMonth()}`}</td> */}
-                    <td>{item.publish_date}</td>
+
                     <td style={{ whiteSpace: "nowrap" }}>
                       <Visibility
                         style={{
@@ -102,15 +97,15 @@ export default function Novel() {
                           fontSize: "35px",
                         }}
                       />
-                      <Link to={`/admin/novels/edit/${item.id}`}>
+                      <Link to={`/admin/novels/genre/edit/${item.id}`}>
                         <Edit
                           style={{ marginRight: "5px", fontSize: "35px" }}
                         />
                       </Link>
 
                       <DeleteForever
-                        style={{ fontSize: "35px" }}
-                        onClick={() => deleteNovel(item.id, item.name)}
+                        style={{ fontSize: "35px", color: "red" }}
+                        onClick={() => deleteGenre(item.id, item.title)}
                       />
                     </td>
                   </tr>

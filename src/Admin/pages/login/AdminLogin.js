@@ -1,17 +1,26 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { TabTitle } from "../../../utils/GeneralFunctions";
 import "./AdminLogin.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function AdminLogin() {
   TabTitle("Admin Login");
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+
   const [input, setInput] = useState({});
   const [error, setError] = useState({ state: "false", message: "" });
+
+  useEffect(() => {
+    if (cookies.jwtadmin) {
+      navigate("/admin", { replace: true });
+    }
+  }, [cookies, navigate, removeCookie]);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -26,33 +35,30 @@ function AdminLogin() {
     try {
       const response = await axios.post(
         "http://localhost:5000/admin/login",
-        input
+        input,
+        { withCredentials: true }
       );
+      if (response.status == 200) {
+        navigate("/admin");
+      }
+      // if (window.history.state && window.history.idx > 0) {
+      //   navigate(-1);
+      // } else {
+      //   navigate("/", { replace: true });
+      // }
     } catch (err) {
-      console.log(err);
+      if (err.response) {
+        toast.error(err.response.data.message);
+        // console.log(err.response.status);
+        // console.log(err.response.headers);
+        // console.log(err.response.data.message);
+      }
     }
-
-    // setError(response.data);
-
-    // if (response.status === 200) {
-    //   toast.error("login success");
-    //   navigate("/admin", { replace: true });
-    // } else if (response.status === 400) {
-    //   toast.error("Incorrect username or password");
-    // } else if (response.status === 404) {
-    //   toast.error("Please register first to login !");
-    // }
-
-    // if (input.username && input.password) {
-    //   setError({ state: "true", message: "Welcome Admin" });
-    // } else {
-    //   setError({ state: "true", message: "Empty fields" });
-    // }
   };
 
   return (
     <div className="container">
-      <ToastContainer />
+      <ToastContainer position="top-center" autoClose={2000} />
       <div className=" col-12 login">
         <div className="col-10 d-flex align-items-center flex-column mt-5">
           <h1 className="display-2 f">Login</h1>

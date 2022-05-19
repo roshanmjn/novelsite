@@ -1,19 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./login.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../UserContext";
 
 const Login = () => {
+  const { setLogin, userData, setUserData } = useContext(UserContext);
   const navigate = useNavigate();
-  const location = useLocation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(location.state);
     try {
       const response = await axios.post(
         "http://localhost:5000/login",
@@ -23,9 +24,10 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      if (window.history.state && window.history.idx > 0) {
-        navigate(-1);
-      } else {
+      if (response.status == 200) {
+        // console.log(response.data);
+        setUserData(response.data);
+        setLogin(true);
         navigate("/", { replace: true });
       }
     } catch (err) {

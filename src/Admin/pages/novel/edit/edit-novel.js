@@ -12,22 +12,36 @@ export const EditNovel = () => {
   TabTitle("Edit Novel");
   const params = useParams();
   const editId = params.id;
-  // console.log(editId);
-
   const navigate = useNavigate();
+
   //----------HANDLE CHANGE INPUT FIELD
-  const [editNovelData, setEditNovelData] = useState({});
+  const [editNovelData, setEditNovelData] = useState({
+    id: "",
+    name: "",
+    author: "",
+    genre: "",
+    image: "",
+    chapters: "",
+    rating: "",
+    description: "",
+    start_date: "",
+    end_date: "",
+    status: "",
+  });
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
 
   useEffect(() => {
     try {
       axios
-        .get(`http://localhost:5000/admin/novels/${editId}`)
+        .get(`http://localhost:5000/admin/novels/${editId}`, {
+          withCredentials: true,
+        })
         .then((response) => {
           if (response.status === 200) {
             setEditNovelData(response.data[0]);
-            console.log("axios_data:", response.data[0]);
+
+            // console.log("axios_data:", response.data[0]);
           }
           setLoading(false);
         });
@@ -55,7 +69,6 @@ export const EditNovel = () => {
     ev.preventDefault();
     // console.log(JSON.stringify(editNovelData));
     // console.log(editNovelData);
-
     // var editNovelDataSize = Object.keys(editNovelData).length;
 
     if (
@@ -71,7 +84,7 @@ export const EditNovel = () => {
       toast.success("Novel updated. Redirecting...");
       setTimeout(() => {
         navigate("/admin/novels", { replace: true });
-      }, 4000);
+      }, 1500);
     }
 
     // const isEmpty = Object.values(editNovelData).every(
@@ -98,7 +111,7 @@ export const EditNovel = () => {
     }
   };
 
-  //LOADING COMPONENT INCASE WRONG USER ID IS ENTERED TO REACH EDIT FORM URL
+  //LOADING COMPONENT IN-CASE WRONG USER ID IS ENTERED TO REACH EDIT FORM URL
   if (loading) {
     return (
       <div className="container ">
@@ -116,7 +129,7 @@ export const EditNovel = () => {
           <h4 className="display-6">Edit Novel</h4>
         </div>
 
-        <div className="col-10 col-lg-8 mt-5 editForm px-5  shadow rounded">
+        <div className="col-10 col-lg-8 editForm px-5  shadow rounded">
           <Form onSubmit={handleNovelUpdate}>
             <Form.Group as={Row} className="mb-3" controlId="formBasicId">
               <Form.Label column sm={1}>
@@ -169,7 +182,6 @@ export const EditNovel = () => {
               <Form.Label>Choose title image for this novel</Form.Label>
               <Form.Control
                 name="image"
-                value={editNovelData.image}
                 type="file"
                 onChange={handleChanged}
                 accept="image/x-png,image/gif,image/jpeg"

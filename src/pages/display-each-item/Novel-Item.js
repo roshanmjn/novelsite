@@ -1,6 +1,59 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import "./novel-item.css";
-const NovelItem = () => {
+import { UserContext } from "../UserContext";
+
+const NovelItem = (props) => {
+  const { id } = useParams();
+  const { login, userData, setUserData } = useContext(UserContext); //userData has {id ,username}
+
+  const navigate = useNavigate();
+  const [novel, setNovel] = useState([
+    {
+      author: "",
+      chapters: "",
+      description: "",
+      genre: "",
+      id: "",
+      image: "",
+      name: "",
+      rating: "",
+      status: "",
+    },
+  ]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/novels/${id}`)
+      .then((res) => {
+        // console.log(res.data[0]);
+        setNovel(res.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // FUNCTION ON-CLICK READ BUTTON
+  const readButton = () => {
+    if (login) {
+      //IF LOGIN = TRUE THEN ADD NOVEL TO USER RECORD
+      axios
+        .post(
+          "http://localhost:5000/bookmarks",
+          { novel_id: id, user_id: userData.id },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log(res.data);
+          // navigate(`/novel/${novel.id}/1`);
+        });
+    } else {
+      // navigate(`/novel/${novel.id}/1`);
+    }
+  };
+
   return (
     <div
       className="novelItem container "
@@ -23,15 +76,20 @@ const NovelItem = () => {
             }}
           >
             <img
-              src="/img7.jpg"
+              // src="/img7.jpg"
+              src={novel.image}
               alt="asd"
               width="295px"
               height="428px"
-              style={{ borderRadius: "10px" }}
+              style={{
+                // border: "1px solid red",
+                borderRadius: "10px",
+                objectFit: "fill",
+              }}
             />
           </div>
         </div>
-        {/* -------------chapters------------- */}
+        {/* -------------chapters start------------- */}
         <div
           className="col-12 col-lg-8 item-chapters"
           style={{ border: "0px solid red", padding: "0 10px" }}
@@ -50,16 +108,22 @@ const NovelItem = () => {
                 borderRadius: "7px",
               }}
             >
-              Ongoing
+              {novel.status}
             </div>
+
             <div
               className="col-12 "
-              style={{ fontSize: "30px", fontWeight: "500" }}
+              style={{
+                fontSize: "30px",
+                fontWeight: "500",
+                margin: "15px 0",
+                lineHeight: "30px",
+              }}
             >
-              Title Title Title
+              {novel.name}
             </div>
             <div className="col-12" style={{ fontSize: "18px", color: "gray" }}>
-              69 Chapters
+              Chapters: {novel.chapters}
             </div>
             <div
               className="col-12 d-flex flex-row"
@@ -72,14 +136,14 @@ const NovelItem = () => {
                   marginLeft: "5px",
                 }}
               >
-                Name
+                {novel.author}
               </p>
             </div>
             <div
               className="col-12"
               style={{ fontSize: "17px", marginBottom: "8px" }}
             >
-              Rating
+              Rating: {novel.rating}%
             </div>
             <div
               className="col-12"
@@ -91,10 +155,7 @@ const NovelItem = () => {
               }}
             >
               <p style={{ textAlign: "justify", lineHeight: "20px" }}>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
-                voluptatem esse praesentium nulla! Similique, fuga veniam
-                praesentium tempora blanditiis rerum exercitationem magnam quasi
-                repellat vitae eos sequi necessitatibus aut distinctio.
+                {novel.description}
               </p>
             </div>
             <div
@@ -113,25 +174,11 @@ const NovelItem = () => {
                   marginRight: "5px",
                 }}
               >
-                Chinese
-              </p>
-              <p
-                style={{
-                  display: "inline",
-                  fontSize: "15px",
-                  fontWeight: "bold",
-                  color: "white",
-                  background: "#363634",
-                  padding: "2px 5px",
-                  borderRadius: "5px",
-                }}
-              >
-                Action
+                {novel.genre}
               </p>
             </div>
             <div className="col-12">
-              <a
-                href="#"
+              <button
                 className="btn btn-primary"
                 style={{
                   fontSize: "20px",
@@ -140,9 +187,10 @@ const NovelItem = () => {
                   borderRadius: "30px",
                   whiteSpace: "nowrap",
                 }}
+                onClick={readButton}
               >
                 Start Reading
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -179,186 +227,6 @@ const NovelItem = () => {
           <a href="#" className="col-6">
             <div className="col-6">Chapter 1</div>
           </a>
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>{" "}
           <a href="#" className="col-6">
             <div className="col-6">Chapter 1</div>
           </a>

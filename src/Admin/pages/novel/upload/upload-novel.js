@@ -18,7 +18,6 @@ export default function UploadNovel() {
       "http://localhost:5000/admin/novels/genre"
     );
     setGenre(response.data);
-    // console.log(response.data);
     console.log(JSON.stringify(response.data));
   }, []);
   const Option = (item) => {

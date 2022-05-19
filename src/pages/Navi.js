@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-bootstrap";
 import Novels from "./novels-sort/Novels";
 import { Link, useNavigate } from "react-router-dom";
 import Home from "./Home";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { UserContext } from "../pages/UserContext";
 
 const Navi = () => {
+  const { login, setLogin } = useContext(UserContext);
   const [cookie] = useCookies([]);
   let navigate = useNavigate();
-  const [login, setLogin] = useState(true);
+  // const [login, setLogin] = useState(false);
+
   // console.log(login);
 
   const logout = () => {
@@ -17,7 +20,8 @@ const Navi = () => {
       axios
         .get("http://localhost:5000/logout", { withCredentials: true })
         .then(() => {
-          navigate("/", { replace: true });
+          setLogin(false);
+          // navigate("/", { replace: true });
         });
     } catch (err) {
       console.log(err);
@@ -31,6 +35,7 @@ const Navi = () => {
             <Link className="navbar-brand" to="/">
               Novel Site
             </Link>
+
             <button
               className="navbar-toggler"
               type="button"
@@ -80,7 +85,6 @@ const Navi = () => {
                     type="submit"
                     onClick={() => {
                       logout();
-                      setLogin(false);
                     }}
                   >
                     Logout

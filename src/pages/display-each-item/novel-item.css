@@ -9,3 +9,11 @@
    background-color: rgb(219, 216, 216);
 }
 
+.iframe{
+   font-size: 25px;
+   color: red !important;
+}
+
+.iframe pre{
+   color:red;
+}

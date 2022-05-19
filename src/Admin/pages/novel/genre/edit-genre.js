@@ -1,35 +1,36 @@
 import React, { useEffect } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import "./userList.css";
+// import "./userList.css";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const EditUser = () => {
+export default function EditGenre() {
   const params = useParams();
   const editId = params.id;
 
   const navigate = useNavigate();
   //----------HANDLE CHANGE INPUT FIELD
   const [editData, setEditData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     try {
       axios
-        .get(`http://localhost:5000/admin/users/${editId}`)
+        .get(`http://localhost:5000/admin/novels/genre/${editId}`)
         .then((response) => {
           if (response.status === 200) {
             setEditData(response.data[0]);
+
             // console.log("axios_data:", response.data[0]);
           }
           setLoading(false);
         });
     } catch (error) {
       toast.alert("Network Down");
-      navigate("/admin/users", { replace: true });
+      navigate("/admin/novels/genre", { replace: true });
     }
   }, []);
 
@@ -43,46 +44,32 @@ const EditUser = () => {
     });
   };
 
-  const handleUserUpdate = (ev) => {
-    ev.preventDefault();
-    // console.log(JSON.stringify(editData));
+  const handleUserUpdate = (e) => {
+    e.preventDefault();
     const updatedData = {
       id: editData.id,
-      full_name: editData.full_name,
-      username: editData.username,
-      email: editData.email,
-      password: editData.password,
-      address: editData.address,
-      gender: editData.gender,
+      title: editData.title,
+      description: editData.description,
+      status: editData.status,
     };
-    // var updatedDataSize = Object.keys(updatedData).length;
-    if (
-      !updatedData.id ||
-      !updatedData.full_name ||
-      !updatedData.username ||
-      !updatedData.email ||
-      !updatedData.password ||
-      !updatedData.address ||
-      !updatedData.gender
-    ) {
+
+    if (!updatedData.title || !updatedData.description || !updatedData.status) {
       toast.error("Please Fillup all fields !. ");
     } else {
       sendUpdatedData(updatedData);
-      toast.success("User updated. Redirecting...");
+      toast.success("Genre updated. Redirecting...");
       setTimeout(() => {
-        navigate("/admin/users", { replace: true });
-      }, 2000);
+        navigate("/admin/novels/genre", { replace: true });
+      }, 1500);
     }
-    // const isEmpty = Object.values(updatedData).every(
-    //   (x) => x === null || x === ""
-    // );
   };
 
   const sendUpdatedData = async (updatedData) => {
     const update_id = params.id;
+
     try {
       const response = await axios.put(
-        `http://localhost:5000/admin/users/edit/${update_id}`,
+        `http://localhost:5000/admin/novels/genre/${update_id}`,
         updatedData
       );
       if (response.status === 200) {
@@ -102,7 +89,7 @@ const EditUser = () => {
     return (
       <div className="container ">
         <div className="col-12 mt-5 d-flex justify-content-center align-items-center">
-          <h3 className="display-3">User Data Loading...</h3>
+          <h3 className="display-3">Genre Data Loading...</h3>
         </div>
       </div>
     );
@@ -110,7 +97,6 @@ const EditUser = () => {
 
   return (
     <div className="container " style={{ fontSize: "14px" }}>
-      {" "}
       <div className="col-12 d-flex flex-column justify-item-center align-items-center">
         <div className="col-10 col-lg-8 px-5 py-2 shadow-sm rounded">
           <h4 className="display-6">Edit Table</h4>
@@ -133,95 +119,57 @@ const EditUser = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicFn">
-              <Form.Label>Full Name</Form.Label>
+              <Form.Label style={{ fontWeight: "bold" }}>
+                Genre Title
+              </Form.Label>
               <Form.Control
                 type="text"
-                value={editData.full_name}
-                name="full_name"
+                value={editData.title}
+                name="title"
                 onChange={handleChanged}
-                placeholder="Full Name"
+                placeholder="New Title"
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
+            <Form.Group className="mb-3" controlId="formBasicGenreDesc">
+              <Form.Label style={{ fontWeight: "bold" }}>
+                Description
+              </Form.Label>
               <Form.Control
-                type="text"
-                value={editData.username}
-                name="username"
+                as="textarea"
+                rows={3}
+                value={editData.description}
+                name="description"
+                placeholder="Description on genre."
                 onChange={handleChanged}
-                placeholder="Username"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="text"
-                value={editData.email}
-                name="email"
-                onChange={handleChanged}
-                placeholder="Email"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                value={editData.password}
-                name="password"
-                onChange={handleChanged}
-                placeholder="Password"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicAddr">
-              <Form.Label>Address</Form.Label>
-              <Form.Control
-                type="text"
-                name="address"
-                value={editData.address}
-                onChange={handleChanged}
-                placeholder="Address"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicCrDate">
-              <Form.Label>Account Created on</Form.Label>
-              <Form.Control
-                type="text"
-                value={editData.created_on}
-                name="created_on"
-                onChange={handleChanged}
-                disabled
+                style={{ fontSize: "17px" }}
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Row>
                 <Col sm={1}>
-                  <Form.Label>Radio</Form.Label>
+                  <Form.Label style={{ fontWeight: "bold" }}>Status</Form.Label>
                 </Col>
-                <Col sm={1}>
+                <Col sm={2}>
                   <Form.Check
                     type="radio"
-                    label="Male"
-                    name="gender"
-                    value="male"
-                    id="editUserMale"
+                    label="In-active"
+                    name="status"
+                    value="0"
+                    id="editInactive"
                     onChange={handleChanged}
-                    checked={editData.gender === "male"}
+                    checked={editData.status == "0"}
                   />
                 </Col>
                 <Col sm={1}>
                   <Form.Check
                     type="radio"
-                    label="Female"
-                    name="gender"
-                    value="female"
-                    id="editUserFemale"
-                    checked={editData.gender === "female"}
+                    label="Active"
+                    name="status"
+                    value="1"
+                    id="editActive"
+                    checked={editData.status == "1"}
                     onChange={handleChanged}
                   />
                 </Col>
@@ -229,33 +177,22 @@ const EditUser = () => {
             </Form.Group>
             <div className="d-flex ">
               <Button type="submit" variant="primary" size="lg">
-                Save Change
+                Save Changes
               </Button>
               <Link
-                to="/admin/users"
+                to="/admin/novels/genre"
                 type="submit"
                 className="btn btn-danger"
                 size="lg"
-                style={{ fontSize: "16px", marginLeft: "15em" }}
+                style={{ fontSize: "16px", marginLeft: "7em" }}
               >
-                cancel
+                Cancel
               </Link>
             </div>
           </Form>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-      />
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
-};
-
-export default EditUser;
+}

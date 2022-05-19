@@ -46,7 +46,7 @@ export default function CreateUser() {
     let { name, value } = e.target;
     setUser((values) => {
       const newFormInput = { ...values, [name]: value };
-      // console.log(newFormInput);
+      console.log(newFormInput);
       return newFormInput;
     });
     // console.log("delay:", user);
@@ -90,13 +90,6 @@ export default function CreateUser() {
       <div className="createUserWrapper">
         <div className="createUserHeader">
           <h5 className="display-5">Create user</h5>
-          <span
-            className="btn btn-danger"
-            onClick={() => navigate("/admin/users")}
-            style={{ fontSize: "20px !important" }}
-          >
-            Cancel
-          </span>
         </div>
         <div className="createUserForm" style={{ marginTop: "50px" }}>
           {/* new */}
@@ -203,9 +196,18 @@ export default function CreateUser() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Create
-            </button>
+            <div className="buttons">
+              <button type="submit" className="btn btn-primary">
+                Create
+              </button>
+              <span
+                className="btn btn-danger"
+                onClick={() => navigate("/admin/users")}
+                style={{ fontSize: "25px !important", marginLeft: "18em" }}
+              >
+                Cancel
+              </span>
+            </div>
           </form>
         </div>
       </div>
