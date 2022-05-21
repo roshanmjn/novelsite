@@ -6,7 +6,6 @@ import { UserContext } from "../UserContext";
 
 export const ReadNovel = () => {
   const { id, chapter_id } = useParams();
-  const { userData, setUserData } = useContext(UserContext);
   const navigate = useNavigate();
   //   console.log(id);
   const [title, setTitle] = useState([]);

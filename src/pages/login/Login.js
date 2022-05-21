@@ -28,6 +28,8 @@ const Login = () => {
         // console.log(response.data);
         setUserData(response.data);
         setLogin(true);
+        localStorage.setItem("login", true);
+        localStorage.setItem("uid", response.data.id);
         navigate("/", { replace: true });
       }
     } catch (err) {

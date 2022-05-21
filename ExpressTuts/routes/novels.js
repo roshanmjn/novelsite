@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.use("/admin/novels", (req, res, next) => {
-  console.log("REQ made to /novels route");
+  console.log("REQ made to /admin/novels route");
   next();
 });
 //GET ALL NOVELS

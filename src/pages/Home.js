@@ -246,9 +246,10 @@ const Home = () => {
                     left: "85%",
                   }}
                 ></div>
-                {editorsChoice.map((item) => {
+                {editorsChoice.map((item, idx) => {
                   return (
                     <SwiperSlide
+                      key={idx}
                       className="d-flex flex-row"
                       style={{
                         width: "100%",

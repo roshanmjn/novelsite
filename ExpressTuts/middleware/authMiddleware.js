@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const conn = require("../database");
+require("dotenv").config();
+
 module.exports = {
   validateRegister: (req, res, next) => {
     //username min length 3
@@ -65,23 +67,27 @@ module.exports = {
 
     //CHECK JSON WEB TOKEN EXISTS & IS VERIFIED
     if (token) {
-      jwt.verify(token, "whatSecretKeyIsThis?", (err, decodedToken) => {
-        if (err) {
-          // throw err;
-          console.log(err.message);
-          res.status(400).send({
-            message: "your token is not valid: err token",
-            isLoggedIn: false,
-          });
-        } else {
-          // console.log(decodedToken);
-          // res.status(200).send({
-          //   message: "Session valid",
-          //   isLoggedIn: true,
-          // });
-          next();
+      jwt.verify(
+        token,
+        process.env.USER_ACCESS_TOKEN_SECRET,
+        (err, decodedToken) => {
+          if (err) {
+            // throw err;
+            console.log(err.message);
+            res.status(400).send({
+              message: "your token is not valid: err token",
+              isLoggedIn: false,
+            });
+          } else {
+            // console.log(decodedToken);
+            // res.status(200).send({
+            //   message: "Session valid",
+            //   isLoggedIn: true,
+            // });
+            next();
+          }
         }
-      });
+      );
 
       // next();
     } else {

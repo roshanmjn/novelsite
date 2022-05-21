@@ -21,18 +21,22 @@ const adminLogin = (req, res, next) => {
 const adminLoggedIn = (req, res, next) => {
   const token = req.cookies.jwtadmin;
   if (token) {
-    jwt.verify(token, "adminSecretKeyIsThis?", (err, decodedToken) => {
-      if (err) {
-        //   throw err;
-        console.log(err.message);
-        res.status(400).send({
-          message: "Your Token is not valid",
-          isLoggedIn: false,
-        });
-      } else {
-        next();
+    jwt.verify(
+      token,
+      process.env.ADMIN_ACCESS_TOKEN_SECRET,
+      (err, decodedToken) => {
+        if (err) {
+          //   throw err;
+          console.log(err.message);
+          res.status(400).send({
+            message: "Your Token is not valid",
+            isLoggedIn: false,
+          });
+        } else {
+          next();
+        }
       }
-    });
+    );
   } else {
     res
       .status(400)

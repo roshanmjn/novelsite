@@ -8,12 +8,11 @@ import axios from "axios";
 import { UserContext } from "../pages/UserContext";
 
 const Navi = () => {
-  const { login, setLogin } = useContext(UserContext);
+  const { login, setLogin, userData } = useContext(UserContext);
+  const checkLogin = localStorage.getItem("login");
+
   const [cookie] = useCookies([]);
   let navigate = useNavigate();
-  // const [login, setLogin] = useState(false);
-
-  // console.log(login);
 
   const logout = () => {
     try {
@@ -21,6 +20,8 @@ const Navi = () => {
         .get("http://localhost:5000/logout", { withCredentials: true })
         .then(() => {
           setLogin(false);
+          localStorage.removeItem("login");
+          localStorage.removeItem("uid");
           // navigate("/", { replace: true });
         });
     } catch (err) {
@@ -73,22 +74,35 @@ const Navi = () => {
                 </li>
               </ul>
               <form className="d-flex">
-                <input
+                {/* <input
                   className="form-control me-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                />
-                {login ? (
-                  <button
-                    className="btn btn-style"
-                    type="submit"
-                    onClick={() => {
-                      logout();
-                    }}
-                  >
-                    Logout
-                  </button>
+                /> */}
+
+                {checkLogin ? (
+                  <div className=" col-2 col-lg-12 d-flex flex-row align-items-center flex-wrap">
+                    <h5
+                      style={{
+                        lineHeight: "30px",
+                        fontSize: "20px",
+                        marginRight: "20px",
+                        padding: "0 10px",
+                      }}
+                    >
+                      {userData.username}
+                    </h5>
+                    <button
+                      className="btn btn-style"
+                      type="submit"
+                      onClick={() => {
+                        logout();
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
                 ) : (
                   <Link to="/login">
                     <button className="btn btn-style" type="submit">

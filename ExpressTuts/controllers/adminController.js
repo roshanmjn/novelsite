@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const conn = require("../database");
+require("dotenv").config;
 
 //check 'if empty'  function
 function isEmptyObject(obj) {
@@ -117,7 +118,7 @@ const adminLoginController = (req, res) => {
             username: result[0].username,
             adminId: result[0].id,
           },
-          "adminSecretKeyIsThis?",
+          process.env.ADMIN_ACCESS_TOKEN_SECRET,
           { expiresIn: "1d" }
         );
         res.cookie("jwtadmin", `${token}`, {

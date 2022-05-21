@@ -1,7 +1,7 @@
 const conn = require("../database");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
+require("dotenv").config();
 const userLoginController = (req, res) => {
   const maxAge = 60 * 60 * 24;
   conn.query(
@@ -57,13 +57,13 @@ const userLoginController = (req, res) => {
             username: result[0].username,
             userId: result[0].id,
           },
-          "whatSecretKeyIsThis?",
+          process.env.USER_ACCESS_TOKEN_SECRET,
           { expiresIn: "1d" }
         );
         res.cookie("jwt", `${token}`, {
           httpOnly: false,
           secure: false,
-          expires: new Date(Date.now() + 7200000),
+          expires: new Date(Date.now() + 86400000),
         });
 
         res.status(200).json({

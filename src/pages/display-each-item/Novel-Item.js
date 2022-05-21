@@ -2,12 +2,16 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import "./novel-item.css";
+
+import { AccessAlarm, BookmarkAdd } from "@mui/icons-material";
+
 import { UserContext } from "../UserContext";
 
 const NovelItem = (props) => {
   const { id } = useParams();
-  const { login, userData, setUserData } = useContext(UserContext); //userData has {id ,username}
-
+  // const { login, userData, setUserData } = useContext(UserContext); //userData has {id ,username}
+  const checkLogin = localStorage.getItem("login");
+  const checkUserId = localStorage.getItem("uid");
   const navigate = useNavigate();
   const [novel, setNovel] = useState([
     {
@@ -37,20 +41,33 @@ const NovelItem = (props) => {
 
   // FUNCTION ON-CLICK READ BUTTON
   const readButton = () => {
-    if (login) {
-      //IF LOGIN = TRUE THEN ADD NOVEL TO USER RECORD
+    if (checkLogin && checkUserId) {
+      //IF LOGIN = TRUE THEN ADD NOVEL TO USER RECORD FOR READ HISTROY
       axios
         .post(
-          "http://localhost:5000/bookmarks",
-          { novel_id: id, user_id: userData.id },
+          "http://localhost:5000/currentnovel",
+          { novel_id: id, user_id: checkUserId },
           { withCredentials: true }
         )
         .then((res) => {
           console.log(res.data);
-          // navigate(`/novel/${novel.id}/1`);
+          navigate(`/novel/${novel.id}/1`);
         });
     } else {
-      // navigate(`/novel/${novel.id}/1`);
+      navigate(`/novel/${novel.id}/1`);
+    }
+  };
+  const addBookmark = () => {
+    if (checkLogin) {
+      axios
+        .post(
+          "http://localhost:5000/bookmarks",
+          { novel_id: id, user_id: checkUserId },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log(res.data);
+        });
     }
   };
 
@@ -191,6 +208,18 @@ const NovelItem = (props) => {
               >
                 Start Reading
               </button>
+              {checkLogin ? (
+                <BookmarkAdd
+                  style={{
+                    fontSize: "60px",
+                    color: "rgb(0 117 255)",
+                    cursor: "pointer",
+                  }}
+                  onClick={addBookmark}
+                />
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

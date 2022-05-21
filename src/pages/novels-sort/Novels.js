@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { NavLink } from "react-bootstrap";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 import img1 from "../../images/img1.jpg";
 import img2 from "../../images/img2.png";
 import img3 from "../../images/img3.png";
@@ -12,11 +12,12 @@ const Novels = () => {
   TabTitle("Novels");
 
   const [novel, setNovel] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(async () => {
     const response = await axios.get("http://localhost:5000/novels");
     if (response.status === 200) {
-      console.log(response.data);
+      // console.log(response.data);
       setNovel(response.data);
     }
   }, []);
@@ -26,7 +27,13 @@ const Novels = () => {
         className="col-12 col-lg-6 d-flex flex-row series-search-item"
         key={idx}
       >
-        <div className="col-4 series-search-image">
+        <div
+          className="col-4 series-search-image"
+          onClick={() => {
+            navigate(`/novel/${item.item.id}`);
+          }}
+          style={{ cursor: "pointer" }}
+        >
           <img src={item.item.image} alt="image#1" />
         </div>
         <div className="col-8 d-flex flex-column justify-content-between series-search-textbox">
@@ -39,6 +46,10 @@ const Novels = () => {
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              navigate(`/novel/${item.item.id}`);
             }}
           >
             {item.item.name}
@@ -72,8 +83,8 @@ const Novels = () => {
         <div className="col-12 series-search">
           {/* item-start */}
           <div className="col-12 series-search-wrapper d-flex flex-row flex-wrap">
-            {novel.map((item) => {
-              return <ListAllNovels item={item} image={img1} />;
+            {novel.map((item, idx) => {
+              return <ListAllNovels item={item} image={img1} key={idx} />;
             })}
           </div>
         </div>
