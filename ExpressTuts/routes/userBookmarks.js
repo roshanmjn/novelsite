@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const conn = require("../database");
 require("dotenv").config();
-const userMiddleware = require("../middleware/authMiddleware");
+const { requireAuth } = require("../middleware/authMiddleware");
 
-router.use("/bookmarks", (req, res, next) => {
+router.use("/bookmarks", requireAuth, (req, res, next) => {
   console.log("REQ made to /userBookmarks route");
   next();
 });
@@ -45,24 +45,6 @@ router.post("/bookmarks/user", (req, res) => {
   }
 });
 
-//ADD CURRENTLY READING NOVEL
-router.post("/currentnovel", (req, res) => {
-  // res.send(req.body);
-  const { novel_id, user_id } = req.body;
-  const query =
-    "INSERT INTO tbl_user_log(user_id,currently_reading) VALUES(?,?) ON DUPLICATE KEY UPDATE currently_reading = CASE WHEN FIND_IN_SET(?,tbl_user_log.currently_reading)=0 THEN CONCAT( currently_reading,',',?) ELSE currently_reading END";
-  try {
-    conn.query(query, [user_id, novel_id, novel_id, novel_id], (err, rows) => {
-      if (err) {
-        throw err;
-      }
-      return res.status(200).json({ message: "Insert success: Current Novel" });
-    });
-  } catch (err) {
-    res.send(err);
-  }
-});
-
 //ADD BOOKMARK
 router.post("/bookmarks", (req, res) => {
   const { novel_id, user_id } = req.body;
@@ -80,6 +62,24 @@ router.post("/bookmarks", (req, res) => {
         return res.status(200).json({ message: "Insert success: Bookmark" });
       }
     );
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+//ADD CURRENTLY READING NOVEL
+router.post("/bookmarks/currentnovel", (req, res) => {
+  // res.send(req.body);
+  const { novel_id, user_id } = req.body;
+  const query =
+    "INSERT INTO tbl_user_log(user_id,currently_reading) VALUES(?,?) ON DUPLICATE KEY UPDATE currently_reading = CASE WHEN FIND_IN_SET(?,tbl_user_log.currently_reading)=0 THEN CONCAT( currently_reading,',',?) ELSE currently_reading END";
+  try {
+    conn.query(query, [user_id, novel_id, novel_id, novel_id], (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      return res.status(200).json({ message: "Insert success: Current Novel" });
+    });
   } catch (err) {
     res.send(err);
   }

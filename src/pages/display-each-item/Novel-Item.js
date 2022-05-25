@@ -1,43 +1,79 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./novel-item.css";
 
-import { AccessAlarm, BookmarkAdd } from "@mui/icons-material";
-
-import { UserContext } from "../UserContext";
+import { BookmarkAdd, BookmarkAdded, Star } from "@mui/icons-material";
 
 const NovelItem = (props) => {
   const { id } = useParams();
-  // const { login, userData, setUserData } = useContext(UserContext); //userData has {id ,username}
+  const backendRoute = "http://localhost:5000/uploads";
   const checkLogin = localStorage.getItem("login");
   const checkUserId = localStorage.getItem("uid");
   const navigate = useNavigate();
-  const [novel, setNovel] = useState([
-    {
-      author: "",
-      chapters: "",
-      description: "",
-      genre: "",
-      id: "",
-      image: "",
-      name: "",
-      rating: "",
-      status: "",
-    },
-  ]);
+  const [alreadyBookmarked, setAlreadyBookmarked] = useState(false);
+  const [rating, setRating] = useState(false);
+  const [ratingData, setRatingData] = useState(null);
+  const [hoverRating, setHoverRating] = useState(null);
+  // prettier-ignore
+  const [novel, setNovel] = useState([{author: "",chapters: "",description: "",genre: "",id: "",image: "",name: "",rating: "",status: "",},]);
 
+  const text_overflow = {
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  };
+
+  //SET ON PAGE LOAD NOVEL WITH ID = id
   useEffect(() => {
     axios
       .get(`http://localhost:5000/novels/${id}`)
       .then((res) => {
-        // console.log(res.data[0]);
         setNovel(res.data[0]);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [id]);
+
+  //CHECK ON PAGE-LOAD IF USER HAS ALREADY "BOOKMARKED" CURRENT NOVEL
+  useEffect(() => {
+    if (checkLogin) {
+      var bookmarks_get = [];
+      axios
+        .get(`http://localhost:5000/bookmarks/${checkUserId}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          bookmarks_get = res.data[0].bookmarks.split(",");
+          bookmarks_get.map((x) => {
+            if (id == x) {
+              setAlreadyBookmarked(true);
+            }
+          });
+        });
+    }
+  }, [id]);
+
+  //CHECK ON PAGE-LOAD IF USER HAS ALREADY "RATED" CURRENT NOVEL
+  useEffect(() => {
+    if (checkLogin) {
+      axios
+        .post(
+          "http://localhost:5000/rating/check",
+          { user_id: checkUserId, novel_id: id },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          if (res.data.rating_exist == true) {
+            setRating(true);
+            setRatingData(res.data.rating);
+          }
+        });
+    }
+  }, [id]);
 
   // FUNCTION ON-CLICK READ BUTTON
   const readButton = () => {
@@ -45,12 +81,12 @@ const NovelItem = (props) => {
       //IF LOGIN = TRUE THEN ADD NOVEL TO USER RECORD FOR READ HISTROY
       axios
         .post(
-          "http://localhost:5000/currentnovel",
+          "http://localhost:5000/bookmarks/currentnovel",
           { novel_id: id, user_id: checkUserId },
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res.data);
+          // console.log(res);
           navigate(`/novel/${novel.id}/1`);
         });
     } else {
@@ -66,7 +102,31 @@ const NovelItem = (props) => {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res.data);
+          if (res.status == 200) {
+            setAlreadyBookmarked(true);
+          }
+          // window.location.reload(false);
+        });
+    }
+  };
+
+  const addRating = (value) => {
+    if (checkLogin) {
+      axios
+        .post(
+          "http://localhost:5000/rating",
+          { user_id: checkUserId, novel_id: id, rating: value },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            setRating(true);
+            setRatingData(value);
+          }
+          // window.location.reload(false);
+        })
+        .catch((err) => {
+          console.log(err.response);
         });
     }
   };
@@ -94,7 +154,8 @@ const NovelItem = (props) => {
           >
             <img
               // src="/img7.jpg"
-              src={novel.image}
+              src={backendRoute + "/" + novel.image}
+              // src={novel.image}
               alt="asd"
               width="295px"
               height="428px"
@@ -106,7 +167,7 @@ const NovelItem = (props) => {
             />
           </div>
         </div>
-        {/* -------------chapters start------------- */}
+        {/* -------------CHAPTER DIV START------------- */}
         <div
           className="col-12 col-lg-8 item-chapters"
           style={{ border: "0px solid red", padding: "0 10px" }}
@@ -131,10 +192,10 @@ const NovelItem = (props) => {
             <div
               className="col-12 "
               style={{
-                fontSize: "30px",
+                fontSize: "25px",
                 fontWeight: "500",
-                margin: "15px 0",
-                lineHeight: "30px",
+                margin: "10px 0",
+                lineHeight: "25px",
               }}
             >
               {novel.name}
@@ -171,9 +232,7 @@ const NovelItem = (props) => {
                 marginBottom: "8px",
               }}
             >
-              <p style={{ textAlign: "justify", lineHeight: "20px" }}>
-                {novel.description}
-              </p>
+              <p style={text_overflow}>{novel.description}</p>
             </div>
             <div
               className="col-12 d-flex flex-start "
@@ -191,9 +250,82 @@ const NovelItem = (props) => {
                   marginRight: "5px",
                 }}
               >
-                {novel.genre}
+                {novel.genre_name}
               </p>
             </div>
+            {/*START RATING*/}
+            {checkLogin ? (
+              !rating ? (
+                <div
+                  className="d-flex item-rating-wrapper d-flex flex-column"
+                  style={{ marginBottom: "12px" }}
+                >
+                  <div>
+                    {[
+                      [...Array(5)].map((star, idx) => {
+                        const ratingValue = idx + 1;
+                        return (
+                          <label key={idx}>
+                            <input
+                              type="radio"
+                              name="rating"
+                              value={ratingValue}
+                              style={{ display: "none" }}
+                              onClick={() => {
+                                // setRating(ratingValue);
+                                addRating(ratingValue);
+                              }}
+                            />
+                            <Star
+                              color={
+                                ratingValue <= (hoverRating || rating)
+                                  ? "primary"
+                                  : "action"
+                              }
+                              style={{
+                                fontSize: "30px",
+                                cursor: "pointer",
+                              }}
+                              onMouseEnter={() => {
+                                setHoverRating(ratingValue);
+                              }}
+                              onMouseLeave={() => {
+                                setHoverRating(null);
+                              }}
+                            />
+                          </label>
+                        );
+                      }),
+                    ]}
+                  </div>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      paddingLeft: "5px",
+                    }}
+                  >
+                    Rate this novel.
+                  </p>
+                </div>
+              ) : (
+                <p
+                  style={{
+                    fontSize: "16px",
+                    background: "gray",
+                    display: "inline-block",
+                    color: "white",
+                    borderRadius: "5px",
+                    padding: "5px",
+                  }}
+                >
+                  Your rating: {ratingData}/5
+                </p>
+              )
+            ) : (
+              ""
+            )}
+
+            {/*END RATING*/}
             <div className="col-12">
               <button
                 className="btn btn-primary"
@@ -209,14 +341,23 @@ const NovelItem = (props) => {
                 Start Reading
               </button>
               {checkLogin ? (
-                <BookmarkAdd
-                  style={{
-                    fontSize: "60px",
-                    color: "rgb(0 117 255)",
-                    cursor: "pointer",
-                  }}
-                  onClick={addBookmark}
-                />
+                !alreadyBookmarked ? (
+                  <BookmarkAdd
+                    style={{
+                      fontSize: "60px",
+                      color: "rgb(0 117 255)",
+                      cursor: "pointer",
+                    }}
+                    onClick={addBookmark}
+                  />
+                ) : (
+                  <BookmarkAdded
+                    style={{
+                      fontSize: "60px",
+                      color: "rgb(0 117 255)",
+                    }}
+                  />
+                )
               ) : (
                 ""
               )}

@@ -42,26 +42,7 @@ module.exports = {
     }
     next();
   },
-  isLoggedIn: (req, res, next) => {
-    if (!req.headers.authorization) {
-      return res
-        .status(400)
-        .send({ message: "Your session is not valid", auth: false });
-    }
-    try {
-      const authHeader = req.headers.authorization;
-      const token = authHeader.split(" ")[1];
 
-      const decode = jwt.verify(token, "whatSecretKeyIsThis?");
-      req.userData = decoded;
-      next();
-    } catch (err) {
-      throw err;
-      return res.status(400).send({
-        message: "your sesson is not valid!",
-      });
-    }
-  },
   requireAuth: (req, res, next) => {
     const token = req.cookies.jwt;
 

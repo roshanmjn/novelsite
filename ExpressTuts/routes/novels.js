@@ -1,32 +1,25 @@
 const { Router } = require("express");
 const router = Router();
 const conn = require("../database");
-const multer = require("multer");
+
 const path = require("path");
 const { adminLoggedIn } = require("../middleware/authAdmin");
-const {
-  novelGenreController,
-  allNovelController,
-  specificNovelController,
-  deleteNovelController,
-  insertNovelController,
-  updateNovelController,
-  deleteGenreController,
-  updateGenreController,
-  insertGenreController,
-  specificGenreController,
-} = require("../controllers/adminNovelController");
+// prettier-ignore
+const { novelGenreController, allNovelController, specificNovelController, deleteNovelController, insertNovelController,  updateNovelController,  deleteGenreController,  updateGenreController,  insertGenreController,  specificGenreController,} = require("../controllers/adminNovelController");
 
-//image storage destination
+const multer = require("multer");
+
+let imageName;
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, "Images");
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads");
   },
-  filename: (req, file, callback) => {
-    console.log(file);
-    callback(null, Date.now() + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    imageName = Date.now() + "-" + file.originalname.trim();
+    cb(null, imageName);
   },
 });
+
 const upload = multer({ storage: storage });
 
 router.use("/admin/novels", (req, res, next) => {
@@ -48,11 +41,17 @@ router.get("/admin/novels/genre/:id", specificGenreController);
 //DELETE NOVEL
 router.delete("/admin/novels/:id", deleteNovelController);
 
-//INSERT NOVEL
-router.post("/admin/novels/upload", insertNovelController);
+// INSERT NOVEL
+// prettier-ignore
+router.post(
+  "/admin/novels/upload", upload.single("image_upload"), insertNovelController);
 
 //EDIT NOVEL
-router.put("/admin/novels/edit/:id", updateNovelController);
+router.put(
+  "/admin/novels/edit/:id",
+  upload.single("image"),
+  updateNovelController
+);
 
 //GENRE
 
@@ -65,12 +64,4 @@ router.post("/admin/novels/genre/insert", insertGenreController);
 //DELETE GENRE
 router.delete("/admin/novels/genre/:id", deleteGenreController);
 
-//UPLOAD  GENRE
-router.post(
-  "/admin/novels/uploadI",
-  upload.single("image_upload"),
-  (req, res) => {
-    res.send("image uploaded");
-  }
-);
 module.exports = router;

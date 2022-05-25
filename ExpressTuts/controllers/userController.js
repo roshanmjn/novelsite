@@ -21,7 +21,6 @@ const userLoginController = (req, res) => {
       // bcrypt.compare(
       //   req.body.password,
       //   result[0]["password"],
-      //   (bErr, bResult) => {
       //     if (bErr) {
       //       throw err;
       //       return res.status(300).send({

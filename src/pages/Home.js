@@ -17,6 +17,7 @@ SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const Home = () => {
   TabTitle("Home");
+  const backendRoute = "http://localhost:5000/uploads";
   const [novel, setNovel] = useState([]);
   const [ongoing, setOngoing] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
@@ -127,7 +128,7 @@ const Home = () => {
           }}
         >
           <img
-            src={item.item.image}
+            src={backendRoute + "/" + item.item.image}
             alt={item.item.image}
             className="releases-image-small "
             onClick={() => {
@@ -177,7 +178,7 @@ const Home = () => {
       >
         <div className="col-12">
           <img
-            src={item.item.image}
+            src={backendRoute + "/" + item.item.image}
             alt={item.item.image}
             style={{ width: "80%", objectFit: "inherit", margin: "0 auto" }}
           />
@@ -257,7 +258,7 @@ const Home = () => {
                       }}
                     >
                       <img
-                        src={item.image}
+                        src={backendRoute + "/" + item.image}
                         className="col-5"
                         alt={item.image}
                         style={{ objectFit: "contain", cursor: "pointer" }}
@@ -322,7 +323,7 @@ const Home = () => {
                               marginBottom: "5px",
                             }}
                           >
-                            {item.genre}
+                            {item.genre_name}
                           </span>
                         </p>
                       </div>

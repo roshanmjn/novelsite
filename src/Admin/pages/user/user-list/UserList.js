@@ -42,22 +42,19 @@ export default function UserList() {
   //CREATING STATE TO STORE DATA
   const [dataTable, setDataTable] = useState([]);
   //  LOAD USER TABLE
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/admin/users", {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          // console.log(response.data);
+  useEffect(async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/admin/users", {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        // console.log(response.data);
 
-          setDataTable(response.data);
-        }
-      } catch (err) {
-        console.log(err);
+        setDataTable(response.data);
       }
-    };
-    getUsers();
+    } catch (err) {
+      console.log(err);
+    }
   }, [deleteUser]);
 
   return (

@@ -10,7 +10,7 @@ import { TabTitle } from "../../utils/GeneralFunctions";
 import axios from "axios";
 const Novels = () => {
   TabTitle("Novels");
-
+  const backendRoute = "http://localhost:5000/uploads/";
   const [novel, setNovel] = useState([]);
   const navigate = useNavigate();
 
@@ -26,15 +26,34 @@ const Novels = () => {
       <div
         className="col-12 col-lg-6 d-flex flex-row series-search-item"
         key={idx}
+
+        // style={{ boxShadow: "1px 1px 2px 2px gray" }}
       >
         <div
           className="col-4 series-search-image"
           onClick={() => {
             navigate(`/novel/${item.item.id}`);
           }}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", position: "relative" }}
         >
-          <img src={item.item.image} alt="image#1" />
+          <img
+            src={backendRoute + item.item.image}
+            alt="image#1"
+            loading="lazy"
+          />
+          <p
+            style={{
+              position: "absolute",
+              zIndex: "99",
+              top: "0px",
+              color: "white",
+              background: "gray",
+              padding: "2px 4px",
+              borderRadius: " 8px 0 3px 0",
+            }}
+          >
+            {item.item.status}
+          </p>
         </div>
         <div className="col-8 d-flex flex-column justify-content-between series-search-textbox">
           <div
@@ -69,7 +88,7 @@ const Novels = () => {
               textOverflow: "ellipsis",
             }}
           >
-            <NavLink>{item.item.genre}</NavLink>
+            <NavLink>{item.item.genre_name}</NavLink>
           </div>
         </div>
       </div>

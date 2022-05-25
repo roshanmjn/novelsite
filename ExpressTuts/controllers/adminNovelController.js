@@ -1,9 +1,6 @@
 const conn = require("../database");
-
-//check 'if empty'  function
-function isEmptyObject(obj) {
-  return !Object.keys(obj).length;
-}
+const multer = require("multer");
+const { reset } = require("nodemon");
 
 //SELECT ALL NOVELS
 const allNovelController = (req, res) => {
@@ -32,25 +29,31 @@ const specificNovelController = (req, res) => {
 
 //TO INSERT A NEW NOVEL
 const insertNovelController = (req, res) => {
-  const {
-    id,
-    name,
-    genre,
-    author,
-    chapters,
-    description,
-    status,
-    rating,
-    start_date,
-  } = req.body;
+  const { name, genre_id, author, description } = req.body;
+  const image_name = req.file != undefined ? req.file.filename : "";
+  // console.log(req.body);
+  // console.log(req.file.filename);
+  // res.send(req.file);
+  res.status(200).send("ok");
+
   query =
-    "INSERT INTO tbl_novel(name, genre, author, chapters, description, status, rating, start_date) VALUES(?,?,?,?,?,?,?,?)";
+    "INSERT INTO tbl_novel(name, genre, author, description,image, start_date,status,chapters) VALUES(?,?,?,?,?,NOW(),'ongoing',30)";
   conn.query(
     query,
-    [name, genre, author, chapters, description, status, rating, start_date],
+    [name, genre_id, author, description, image_name],
     (err, rows) => {
       if (!err) {
-        res.send(`id:${rows.insertId} successfully inserted`);
+        // res.send(`id:${rows.insertId} successfully inserted`);
+        conn.query(
+          "UPDATE tbl_novel,tbl_genre SET tbl_novel.genre_name = tbl_genre.title WHERE tbl_novel.genre = tbl_genre.id",
+          (err, row) => {
+            if (!err) {
+              res.send(`id:${rows.insertId} successfully inserted`);
+            } else {
+              res.send(err);
+            }
+          }
+        );
       } else {
         res.send(err);
       }
@@ -62,23 +65,36 @@ const insertNovelController = (req, res) => {
 const updateNovelController = (req, res) => {
   const update_id = req.params.id;
   // res.send(update_id);
-  const { id, author, chapters, description, genre, image, name, status } =
-    req.body;
+  // console.log(req.body);
+  // res.send(req.file);
+  const { name, chapters, description, genre_id, status, image } = req.body;
+  const image_name = req.file === undefined ? image : req.file.filename;
+
   const query =
-    "UPDATE tbl_novel SET author=? ,chapters=?, description=?, genre=?, image=?, name=?, status=? WHERE id=?";
+    "UPDATE tbl_novel SET name=?, chapters=?, description=?, genre=?,status=? , image=?  WHERE id=?";
   conn.query(
     query,
-    [author, chapters, description, genre, image, name, status, update_id],
+    [name, chapters, description, genre_id, status, image_name, update_id],
     (err, rows) => {
       if (!err) {
-        res.status(200).json(`id:${update_id} successfully updated`);
+        // res.status(200).json(`id:${update_id} successfully updated`);
+        conn.query(
+          "UPDATE tbl_novel,tbl_genre SET tbl_novel.genre_name = tbl_genre.title WHERE tbl_novel.genre = tbl_genre.id",
+          (err, row) => {
+            if (!err) {
+              res.send(`id:${update_id} successfully updated`);
+            } else {
+              res.send(err);
+            }
+          }
+        );
       } else {
         res.status(400).send(err);
-        // .json({ status: false, message: `Failed to update: ${err}` });
       }
     }
   );
 };
+
 //TO DELETE A NOVEL
 const deleteNovelController = (req, res) => {
   const query = "DELETE FROM tbl_novel WHERE id = ?";

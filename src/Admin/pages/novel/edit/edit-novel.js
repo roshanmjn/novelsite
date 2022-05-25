@@ -13,6 +13,7 @@ export const EditNovel = () => {
   const params = useParams();
   const editId = params.id;
   const navigate = useNavigate();
+  const [getGenre, setGetGenre] = useState({ genres: [] });
 
   //----------HANDLE CHANGE INPUT FIELD
   const [editNovelData, setEditNovelData] = useState({
@@ -29,9 +30,8 @@ export const EditNovel = () => {
     status: "",
   });
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState("");
 
-  useEffect(() => {
+  useEffect(async () => {
     try {
       axios
         .get(`http://localhost:5000/admin/novels/${editId}`, {
@@ -40,8 +40,6 @@ export const EditNovel = () => {
         .then((response) => {
           if (response.status === 200) {
             setEditNovelData(response.data[0]);
-
-            // console.log("axios_data:", response.data[0]);
           }
           setLoading(false);
         });
@@ -49,31 +47,36 @@ export const EditNovel = () => {
       toast.alert("Network Down");
       navigate("/admin/novels", { replace: true });
     }
+
+    //TO GET AVAILABLE GENRE ON FOR <SELECT>GENRE</SELECT> LIST
+    const response = await axios.get(
+      "http://localhost:5000/admin/novels/genre"
+    );
+    setGetGenre({ genres: response.data });
   }, [params.id]);
 
+  //FORM ON CHANGE HANDLER
   const handleChanged = (e) => {
-    let { name, value } = e.target;
-
-    // if (e.target.files.length) {
-    //   const upload_file = e.target.files[0];
-    //   setImage(upload_file);
-    // }
+    let { name, value, files } = e.target;
     setEditNovelData((values) => {
-      const nextFormData = { ...values, [name]: value };
-      // console.log(nextFormData);
-      return nextFormData;
+      if (name == "image") {
+        const nextFormData = { ...values, [name]: files[0] };
+        console.log(nextFormData);
+        return nextFormData;
+      } else {
+        const nextFormData = { ...values, [name]: value };
+        console.log(nextFormData);
+        return nextFormData;
+      }
     });
   };
 
-  const handleNovelUpdate = (ev) => {
-    ev.preventDefault();
-    // console.log(JSON.stringify(editNovelData));
-    // console.log(editNovelData);
-    // var editNovelDataSize = Object.keys(editNovelData).length;
+  const handleNovelUpdate = (e) => {
+    e.preventDefault();
 
     if (
       !editNovelData.name ||
-      !editNovelData.chapters ||
+      // !editNovelData.chapters ||
       !editNovelData.description ||
       !editNovelData.status ||
       !editNovelData.genre
@@ -81,23 +84,38 @@ export const EditNovel = () => {
       toast.error("Please Fillup all fields !. ");
     } else {
       sendEditNovelData(editNovelData);
+      // console.log(editNovelData);
       toast.success("Novel updated. Redirecting...");
       setTimeout(() => {
         navigate("/admin/novels", { replace: true });
-      }, 1500);
+      }, 500);
     }
-
-    // const isEmpty = Object.values(editNovelData).every(
-    //   (x) => x === null || x === ""
-    // );
   };
 
   const sendEditNovelData = async (editNovelData) => {
     const update_id = params.id;
+    const formData = new FormData();
+    formData.append("image", editNovelData.image);
+    formData.append("name", editNovelData.name);
+    formData.append("genre_id", editNovelData.genre);
+    formData.append("chapters", editNovelData.chapters);
+    formData.append("description", editNovelData.description);
+    formData.append("start_date", editNovelData.start_date);
+    formData.append("status", editNovelData.status);
+
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
     try {
       const response = await axios.put(
         `http://localhost:5000/admin/novels/edit/${update_id}`,
-        editNovelData
+        formData,
+        {
+          header: {
+            "Content-Type": "multipart/form-data; boundary=MyBoundary",
+          },
+          withCredentials: true,
+        }
       );
       if (response.status === 200) {
         console.log(response.data);
@@ -107,7 +125,7 @@ export const EditNovel = () => {
         console.log("error");
       }
     } catch (err) {
-      console.log("errz:", err);
+      console.log("Error:", err);
     }
   };
 
@@ -170,16 +188,24 @@ export const EditNovel = () => {
 
             <Form.Group className="mb-3" controlId="formBasicGenre">
               <Form.Label>Genre</Form.Label>
-              <Form.Control
-                type="text"
+              <Form.Select
                 value={editNovelData.genre}
                 name="genre"
                 onChange={handleChanged}
-                placeholder="Genre"
-              />
+                style={{ fontSize: "16px" }}
+              >
+                <option value="">Select Genre</option>
+                {getGenre.genres.map((e, idx) => {
+                  return (
+                    <option value={e.id} key={idx}>
+                      {e.title}
+                    </option>
+                  );
+                })}
+              </Form.Select>
             </Form.Group>
             <Form.Group controlId="formFile" className="mb-3">
-              <Form.Label>Choose title image for this novel</Form.Label>
+              <Form.Label>Choose an image for novel</Form.Label>
               <Form.Control
                 name="image"
                 type="file"

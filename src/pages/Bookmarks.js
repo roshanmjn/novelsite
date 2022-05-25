@@ -10,6 +10,7 @@ import { Close } from "@mui/icons-material";
 
 const Bookmarks = () => {
   TabTitle("Bookmarks");
+  const backendRoute = "http://localhost:5000/uploads/";
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const checkLogin = localStorage.getItem("login");
   const checkUserId = localStorage.getItem("uid");
@@ -22,6 +23,7 @@ const Bookmarks = () => {
     if (!cookies.jwt || !checkLogin) {
       navigate("/login");
     } else {
+      //IF LOGIN IS TRUE GET USER BOOKMARKS
       const response = await axios.get(
         `http://localhost:5000/bookmarks/${checkUserId}`,
         {
@@ -31,7 +33,6 @@ const Bookmarks = () => {
       if (response.status == 200) {
         // console.log(response.data[0].bookmarks.split(","));
         let bookmarked_novels_id = response.data[0].bookmarks.split(",");
-
         axios
           .post(
             `http://localhost:5000/bookmarks/user`,
@@ -61,8 +62,8 @@ const Bookmarks = () => {
       )
       .then((res) => {
         if (res.status == 200) {
-          window.location.reload();
-          console.log(res);
+          window.location.reload(false);
+          // console.log(res);
         }
       });
   };
@@ -89,8 +90,8 @@ const Bookmarks = () => {
             >
               <div className="column-image">
                 <img
-                  src={e.image}
-                  alt=""
+                  src={backendRoute + e.image}
+                  alt={e.image}
                   width="90px"
                   height="120px"
                   style={{ cursor: "pointer" }}
@@ -145,7 +146,7 @@ const Bookmarks = () => {
                   className="item-chapter-number"
                   style={{ fontSize: "18px" }}
                 >
-                  Chapters: {e.chapters}
+                  {/* Chapters: {e.chapters} */}
                 </span>
               </div>
             </div>

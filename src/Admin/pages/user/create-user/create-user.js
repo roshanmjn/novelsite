@@ -46,7 +46,7 @@ export default function CreateUser() {
     let { name, value } = e.target;
     setUser((values) => {
       const newFormInput = { ...values, [name]: value };
-      console.log(newFormInput);
+      // console.log(newFormInput);
       return newFormInput;
     });
     // console.log("delay:", user);
