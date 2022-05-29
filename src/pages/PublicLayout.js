@@ -9,6 +9,7 @@ import Login from "./login/Login";
 import Signup from "./signup/Signup";
 import Footer from "./Footer";
 import Navi from "./Navi";
+import Recommendations from "./Recommendations";
 import { UserContext } from "./UserContext";
 import { ReadNovel } from "./display-each-item/Read-Novel";
 
@@ -28,6 +29,7 @@ const PublicLayout = () => {
           </Route>
           <Route path="home" element={<Home />} />
           <Route path="bookmarks" element={<Bookmarks />} />
+          <Route path="recommendations" element={<Recommendations />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />

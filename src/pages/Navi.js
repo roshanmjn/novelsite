@@ -13,6 +13,11 @@ const Navi = () => {
 
   const [cookie] = useCookies([]);
   let navigate = useNavigate();
+  useEffect(() => {
+    if (!checkLogin) {
+      navigate("/", { replace: true });
+    }
+  }, []);
 
   const logout = () => {
     try {
@@ -72,6 +77,19 @@ const Navi = () => {
                     Bookmarks
                   </Link>
                 </li>
+                {checkLogin ? (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
+                      to="/recommendations"
+                    >
+                      Recommendations
+                    </Link>
+                  </li>
+                ) : (
+                  ""
+                )}
               </ul>
               <form className="d-flex">
                 {/* <input

@@ -30,6 +30,7 @@ const Login = () => {
         setLogin(true);
         localStorage.setItem("login", true);
         localStorage.setItem("uid", response.data.id);
+        localStorage.setItem("uname", response.data.username);
         navigate("/", { replace: true });
       }
     } catch (err) {

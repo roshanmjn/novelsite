@@ -12,7 +12,7 @@ const userLogin = require("./routes/userLogin");
 const userSignup = require("./routes/userSignup");
 const userBookmarks = require("./routes/userBookmarks");
 const userRating = require("./routes/userRating");
-// const userLogout = require("./routes/x-userLogout");
+const userRecommendation = require("./routes/userRecommendation");
 const { adminLoggedIn } = require("./middleware/authAdmin");
 
 //MIDDLEWARES
@@ -37,6 +37,8 @@ app.use(userLogin);
 app.use(userSignup);
 app.use(userBookmarks);
 app.use(userRating);
+app.use(userRecommendation);
+
 //AUTHENTICATION
 app.get("/", (req, res) => {
   res.send("__dirname");
