@@ -1,23 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-bootstrap";
 import Novels from "./novels-sort/Novels";
 import { Link, useNavigate } from "react-router-dom";
 import Home from "./Home";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { UserContext } from "../pages/UserContext";
+import { Login } from "@mui/icons-material";
 
 const Navi = () => {
   const { login, setLogin, userData } = useContext(UserContext);
   const checkLogin = localStorage.getItem("login");
+  const checkUser = localStorage.getItem("uname");
 
   const [cookie] = useCookies([]);
   let navigate = useNavigate();
-  useEffect(() => {
-    if (!checkLogin) {
-      navigate("/", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!checkLogin) {
+  //     navigate("/", { replace: true });
+  //   }
+  // }, []);
 
   const logout = () => {
     try {
@@ -27,6 +28,7 @@ const Navi = () => {
           setLogin(false);
           localStorage.removeItem("login");
           localStorage.removeItem("uid");
+          localStorage.removeItem("uname");
           // navigate("/", { replace: true });
         });
     } catch (err) {
@@ -109,7 +111,7 @@ const Navi = () => {
                         padding: "0 10px",
                       }}
                     >
-                      {userData.username}
+                      {checkUser}
                     </h5>
                     <button
                       className="btn btn-style"
@@ -123,8 +125,16 @@ const Navi = () => {
                   </div>
                 ) : (
                   <Link to="/login">
-                    <button className="btn btn-style" type="submit">
-                      Login
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      style={{
+                        fontSize: "17px",
+                        borderRadius: "10px",
+                        padding: "5px 15px",
+                      }}
+                    >
+                      Login <Login style={{ fontSize: "17px" }} />
                     </button>
                   </Link>
                 )}

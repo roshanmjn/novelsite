@@ -1,14 +1,11 @@
 import React from "react";
 import { NavLink } from "react-bootstrap";
-// import "../App.css";
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <>
-      <footer id="footer">
+      <footer id="footer" style={{}}>
         <div className="container">
           <div className="col-8 d-flex flex-row footer-wrapper justify-content-between ">
             <div className="col-4  d-flex flex-column ">

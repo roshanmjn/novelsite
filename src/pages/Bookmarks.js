@@ -6,22 +6,23 @@ import { TabTitle } from "../utils/GeneralFunctions";
 import { useCookies } from "react-cookie";
 import { replace } from "formik";
 import { UserContext } from "./UserContext";
-import { Close } from "@mui/icons-material";
+import Close from "@mui/icons-material/Close";
 
 const Bookmarks = () => {
   TabTitle("Bookmarks");
+
   const backendRoute = "http://localhost:5000/uploads/";
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const checkLogin = localStorage.getItem("login");
   const checkUserId = localStorage.getItem("uid");
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [bookmarksArray, setBookmarksArray] = useState({ bookmarks: [] });
 
   useEffect(async () => {
     // console.log(cookies.jwt);
     if (!cookies.jwt || !checkLogin) {
-      navigate("/login");
+      navigate("/login", { replace: true, state: { from: location } });
     } else {
       //IF LOGIN IS TRUE GET USER BOOKMARKS
       const response = await axios.get(
@@ -33,21 +34,20 @@ const Bookmarks = () => {
       if (response.status == 200) {
         // console.log(response.data[0].bookmarks.split(","));
         let bookmarked_novels_id = response.data[0].bookmarks.split(",");
-        axios
-          .post(
-            `http://localhost:5000/bookmarks/user`,
-            { bookmarked_novels_id },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            // console.log(res.data);
-            setBookmarksArray({ bookmarks: res.data });
-          });
+        const response2 = await axios.post(
+          `http://localhost:5000/bookmarks/user`,
+          { bookmarked_novels_id },
+          {
+            withCredentials: true,
+          }
+        );
+        if (response2.status == 200) {
+          //console.log(response2.data);
+          setBookmarksArray({ bookmarks: response2.data });
+        }
       }
     }
-  }, []);
+  }, [checkLogin]);
 
   const removeBookmark = (id) => {
     // console.log("novel:", id, " user:", checkUserId);

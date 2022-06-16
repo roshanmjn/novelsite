@@ -35,9 +35,7 @@ export default function Recommendations() {
         response2.map(async (x) => {
           const request3 = await axios.get(
             `http://localhost:5000/novels/${x[0]}`,
-            {
-              withCredentials: true,
-            }
+            { params: { _limit: 3 }, withCredentials: true }
           );
           const response3 = request3.data[0];
           item_array.push(response3);
@@ -126,7 +124,9 @@ export default function Recommendations() {
       <div className="col-12 recommendations-wrapper d-flex flex-row flex-wrap">
         {recommend.map((x, idx) => {
           // console.log(x.id, ":", x.name);
-          return <ListAllNovels item={x} key={x.id} />;
+          while (idx < 6) {
+            return <ListAllNovels item={x} key={x.id} />;
+          }
           // return <p key={x.id}>{x.id}</p>;
         })}
       </div>

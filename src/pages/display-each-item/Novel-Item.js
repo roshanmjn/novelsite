@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./novel-item.css";
 
-import { BookmarkAdd, BookmarkAdded, Star } from "@mui/icons-material";
+// import { BookmarkAdd, BookmarkAdded, Star } from "@mui/icons-material";
+import BookmarkAdd from "@mui/icons-material/BookmarkAdd";
+import BookmarkAdded from "@mui/icons-material/BookmarkAdded";
+import Star from "@mui/icons-material/Star";
 
 const NovelItem = (props) => {
   const { id } = useParams();
@@ -93,6 +96,7 @@ const NovelItem = (props) => {
       navigate(`/novel/${novel.id}/1`);
     }
   };
+  // FUNCTION TO ADD BOOKMARK
   const addBookmark = () => {
     if (checkLogin) {
       axios
@@ -110,6 +114,7 @@ const NovelItem = (props) => {
     }
   };
 
+  // FUNCTION TO SET RATING TO NOVEL
   const addRating = (value) => {
     if (checkLogin) {
       axios

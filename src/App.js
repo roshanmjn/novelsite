@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
-    <div className="layout">
+    <div className="layout d-flex flex-column" style={{ minHeight: "100vh" }}>
       <Routes>
         <Route path="/*" element={<PublicLayout />} />
         <Route path="/admin/*" element={<AdminLayout />} />

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import { NavLink } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
 import "./login.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const location = useLocation();
+
+  // console.log(location.state.from);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +27,7 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+
       if (response.status == 200) {
         // console.log(response.data);
         setUserData(response.data);
@@ -31,7 +35,11 @@ const Login = () => {
         localStorage.setItem("login", true);
         localStorage.setItem("uid", response.data.id);
         localStorage.setItem("uname", response.data.username);
-        navigate("/", { replace: true });
+        if (location.state?.from) {
+          navigate(location.state.from);
+        } else {
+          navigate("/", { replace: true });
+        }
       }
     } catch (err) {
       if (err.response) {
@@ -57,6 +65,9 @@ const Login = () => {
                 <label htmlFor="login-email" className="form-label login-label">
                   Email
                 </label>
+                {/* <Link to={location.state.from}>
+                  <button>here</button>
+                </Link> */}
                 <input
                   type="text"
                   className="form-control login-input"
