@@ -74,7 +74,7 @@ export default function UserList() {
             style={{ whiteSpace: "nowrap" }}
           >
             <thead>
-              <tr>
+              <tr className="userTables-headings">
                 {column.map((item, index) => {
                   //  FETCH EACH TABLE HEADINGS AND DISPALY AS COLUMN
                   return (
@@ -97,7 +97,7 @@ export default function UserList() {
             <tbody style={{ whiteSpace: "nowrap" }}>
               {dataTable.map((item, index) => {
                 return (
-                  <tr key={index}>
+                  <tr key={index} className="userTables-items">
                     <td>{item.id}</td>
                     <td>{item.full_name}</td>
                     <td>{item.username}</td>

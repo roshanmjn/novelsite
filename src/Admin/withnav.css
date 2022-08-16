@@ -1,0 +1,98 @@
+/* X-Small devices (portrait phones, less than 576px)*/
+/* No media query for `xs` since this is the default in Bootstrap*/
+.outlet-layout {
+  width: 100%;
+  /* overflow: hidden; */
+}
+
+@media (min-width: 280px) {
+  .sidebarMenu {
+    margin-bottom: 0;
+  }
+  .outlet-layout {
+    flex: 5;
+  }
+  .sidebarTitle {
+    font-size: 10px;
+  }
+  .sidebarIcon {
+    margin-right: 0px;
+    font-size: 10px !important;
+  }
+  .sidebarListItem {
+    padding: 1px;
+    font-size: 11px;
+  }
+}
+/* Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+  .sidebarMenu {
+    margin-bottom: 10px;
+  }
+  .outlet-layout {
+    flex: 5;
+  }
+  .sidebarTitle {
+    font-size: 12px;
+  }
+  .sidebarIcon {
+    margin-right: 0px;
+    font-size: 15px !important;
+  }
+  .sidebarListItem {
+    padding: 1px;
+    font-size: 14px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+  .outlet-layout {
+    flex: 6;
+  }
+}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+  .outlet-layout {
+    flex: 6;
+  }
+  .sidebarTitle {
+    font-size: 12px;
+  }
+  .sidebarIcon {
+    margin-right: 0px;
+    font-size: 20px !important;
+  }
+  .sidebarListItem {
+    padding: 1px;
+    font-size: 14px;
+  }
+}
+
+/* X-Large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+  .outlet-layout {
+    flex: 7;
+  }
+  .sidebar {
+    background-color: rgb(211, 211, 247);
+  }
+}
+
+/* XX-Large devices (larger desktops, 1400px and up)*/
+@media (min-width: 1400px) {
+  html {
+    font-size: 62.5%;
+  }
+  .outlet-layout {
+    flex: 7;
+  }
+  .sidebarIcon {
+    font-size: 28px !important;
+  }
+  .sidebarListItem {
+    padding: 2px;
+    font-size: 20px;
+  }
+}

@@ -1,42 +1,69 @@
-.createUser{
-   flex:5;
-   display: flex;
-   justify-content: space-around;
-   flex-direction: row;
+.createUser {
+  flex: 5;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
 }
 
-.createUserWrapper{
-   width: 50%;
-   display: flex;
-   flex-direction: column;   
+.createUserWrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0;
+  margin: 0;
 }
 
-.createUserHeader{
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   align-items: center;
+.createUserHeader {
+  justify-content: center;
 }
-.createUserCancel{
-   display: block;
-   background: rgb(133, 30, 30);
-   padding: 8px 16px;
-   color: rgb(223, 223, 223);
-   border-radius: 10px;
-   cursor: pointer;
-   font-size: 16px;
+.createUserCancel {
+  display: block;
+  background: rgb(133, 30, 30);
+  padding: 8px 16px;
+  color: rgb(223, 223, 223);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.createUserForm{
-   width: 60%;
-   /* margin-right:30px ; */
+.createUserForm .form-control {
+  font-size: 18px;
 }
-.createUserForm .form-control{
-   font-size: 18px !important;
+.createUserForm .form-gender {
+  display: flex;
+  margin-right: 10px;
+  align-items: center;
 }
-.createUserLabel,.createUserForm .form-check-label,.createUserForm .btn  {
-   font-size: 18px !important;
+.createUserLabel,
+.createUserForm .form-check-label,
+.createUserForm .btn {
+  font-size: 18px;
 }
 
-
-
+@media (min-width: 768px) {
+  .createUserWrapper {
+    display: flex;
+    justify-content: flex-start !important;
+  }
+  .createUserForm label,
+  input {
+    font-size: 12px !important;
+  }
+}
+@media (min-width: 1400px) {
+  .createUserHeader h2 {
+    font-size: 25px;
+  }
+  .createUserWrapper {
+    display: flex;
+    justify-content: flex-start !important;
+  }
+  .createUserForm form div {
+    margin-bottom: 10px;
+  }
+  .createUserForm label,
+  input {
+    font-size: 18px !important;
+  }
+}

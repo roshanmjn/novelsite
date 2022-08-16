@@ -14,7 +14,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const location = useLocation();
 
-  // console.log(location.state.from);
+  console.log(location);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

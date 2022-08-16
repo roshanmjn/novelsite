@@ -7,7 +7,7 @@ import img4 from "../images/img4.png";
 import { TabTitle } from "../utils/GeneralFunctions";
 
 import { Link, useNavigate } from "react-router-dom";
-import { RecommendationSlider } from "./RecommendationSlider";
+// import { RecommendationSlider } from "./x-RecommendationSlider";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
@@ -254,7 +254,7 @@ const Home = () => {
                     width: "100px",
                     height: "17px",
                     position: "absolute",
-                    bottom: "-3px",
+                    bottom: "1rem",
                     left: "270px",
                   }}
                 ></div>
@@ -323,7 +323,7 @@ const Home = () => {
                         >
                           {item.name}
                         </p>
-                        <p style={{ fontSize: "17px", color: "black" }}>69%</p>
+
                         <p
                           style={{
                             fontSize: "16px",
@@ -337,7 +337,7 @@ const Home = () => {
                             marginBottom: "15px",
                           }}
                         >
-                          {item.description}
+                          {/* {item.description} */}
                         </p>
                         <p
                           style={{
@@ -463,14 +463,6 @@ const Home = () => {
                 </h6>
               </div>
               <div className="col-12 d-flex flex-row justify-content-between flex-wrap">
-                {/* {novel &&
-                  novel.map((item, idx) => {
-                    console.log(item);
-                    return (
-                      <PopularThisWeek item={item} image={img1} key={idx} />
-                    );
-                  })} */}
-
                 <Swiper
                   className="popular-weekly "
                   slidesPerView={6}
@@ -546,13 +538,14 @@ const Home = () => {
                                 }}
                               />
                               <p
+                                className="col"
                                 style={{
                                   position: "absolute",
-                                  bottom: "85px",
-                                  left: "16px",
+                                  bottom: "17rem",
+                                  left: "0.5rem",
                                   zIndex: "999",
                                   transform: "rotate(2deg)",
-                                  fontSize: "80px",
+                                  fontSize: "12rem",
                                   fontWeight: "bold",
                                   color: "black",
                                   WebkitTextStroke: "1px white",

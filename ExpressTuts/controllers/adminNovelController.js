@@ -162,7 +162,7 @@ const updateGenreController = (req, res) => {
   const { id, title, description, status } = req.body;
   const query =
     "UPDATE tbl_genre SET title=? ,  description=?,status=? WHERE id=?";
-  conn.query(query, [title, description, statusnpo, update_id], (err, rows) => {
+  conn.query(query, [title, description, status, update_id], (err, rows) => {
     if (!err) {
       res.status(200).json({ message: `id:${update_id} successfully updated` });
     } else {

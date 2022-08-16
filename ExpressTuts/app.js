@@ -3,6 +3,8 @@ const path = require("path");
 const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+require("dotenv").config;
+const port = process.env.PORT || 5000;
 
 //imports
 const adminUserRoute = require("./routes/admin");
@@ -13,6 +15,7 @@ const userSignup = require("./routes/userSignup");
 const userBookmarks = require("./routes/userBookmarks");
 const userRating = require("./routes/userRating");
 const userRecommendation = require("./routes/userRecommendation");
+const userAvailabilityCheck = require("./routes/userAvailabilityCheck");
 const { adminLoggedIn } = require("./middleware/authAdmin");
 
 //MIDDLEWARES
@@ -38,12 +41,19 @@ app.use(userSignup);
 app.use(userBookmarks);
 app.use(userRating);
 app.use(userRecommendation);
+app.use(userAvailabilityCheck);
 
 //AUTHENTICATION
 app.get("/", (req, res) => {
   res.send("__dirname");
 });
 
-app.listen(5000, () => {
+// app.use(express.static(path.join(__dirname, "/novelsite")));
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "/novelsite/build", "index.html"));
+// });
+
+app.listen(port, () => {
   console.log("port 5k");
 });

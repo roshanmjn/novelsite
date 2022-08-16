@@ -94,9 +94,13 @@ export default function UploadNovel() {
       {/* {console.log(data)} */}
       <div className="container">
         <div className="col-6">
-          <form onSubmit={onSubmit} style={{ fontSize: "18px" }}>
+          <form
+            className="novel-upload-form"
+            onSubmit={onSubmit}
+            style={{ fontSize: "18px" }}
+          >
             <h1> UPLOAD NOVEL</h1>
-            <div className="form-group mt-5">
+            <div className="form-group">
               <label htmlFor="novelName" className="sr-only">
                 Novel Title:
               </label>
@@ -151,7 +155,7 @@ export default function UploadNovel() {
                 name="image_upload"
                 className="form-control-file"
                 id="novelimage"
-                style={{ fontSize: "17px" }}
+                style={{ fontSize: "14px" }}
                 onChange={onChangeFile}
               />
             </div>
@@ -159,7 +163,7 @@ export default function UploadNovel() {
               <label htmlFor="noveldescription">Description</label>
               <textarea
                 cols="20"
-                rows="5"
+                rows="2"
                 name="description"
                 placeholder="Description"
                 className="form-control"

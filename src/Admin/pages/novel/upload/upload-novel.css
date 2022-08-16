@@ -1,7 +1,52 @@
-.uploadNovel{
-   flex:5;
+.uploadNovel {
+  flex: 5;
 }
 
-.form-group{
-   margin-bottom: 10px;
+.form-group {
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .novel-upload-form {
+    margin-left: 20px;
+  }
+  .novel-upload-form .form-group {
+    margin: 0;
+    padding: 0;
+  }
+  .novel-upload-form h1 {
+    font-size: 16px !important;
+    margin: 0;
+  }
+  .novel-upload-form .form-group > label {
+    font-size: 10px !important;
+    margin: 0;
+  }
+  .novel-upload-form .form-group > input,
+  textarea,
+  select,
+  option,
+  button {
+    font-size: 10px !important;
+    margin: 0;
+  }
+}
+
+@media (min-width: 1400px) {
+  .novel-upload-form h1 {
+    font-size: 22px !important;
+    margin: 0;
+  }
+  .novel-upload-form .form-group > label {
+    font-size: 16px !important;
+    margin: 0;
+  }
+  .novel-upload-form .form-group > input,
+  textarea,
+  select,
+  option,
+  button {
+    font-size: 16px !important;
+    margin: 0;
+  }
 }

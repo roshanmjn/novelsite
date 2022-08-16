@@ -40,7 +40,11 @@ const Navi = () => {
       <section className="navbar-bg">
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container">
-            <Link className="navbar-brand" to="/">
+            <Link
+              className="navbar-brand"
+              to="/"
+              style={{ fontSize: "2.6rem" }}
+            >
               Novel Site
             </Link>
 
@@ -65,6 +69,7 @@ const Navi = () => {
                     className="nav-link active"
                     aria-current="page"
                     to="/novels"
+                    style={{ fontSize: "2.2rem" }}
                   >
                     Sites
                   </Link>
@@ -75,6 +80,7 @@ const Navi = () => {
                     className="nav-link active"
                     aria-current="page"
                     to="/bookmarks"
+                    style={{ fontSize: "2.2rem" }}
                   >
                     Bookmarks
                   </Link>
@@ -85,6 +91,7 @@ const Navi = () => {
                       className="nav-link active"
                       aria-current="page"
                       to="/recommendations"
+                      style={{ fontSize: "2.2rem" }}
                     >
                       Recommendations
                     </Link>

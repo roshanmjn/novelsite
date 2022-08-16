@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { TabTitle } from "../utils/GeneralFunctions";
 import { NavLink, useNavigate } from "react-router-dom";
+import { array } from "yup";
+
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+
 export default function Recommendations() {
   TabTitle("Recommendations");
   const backendRoute = "http://localhost:5000/uploads/";
@@ -10,8 +14,11 @@ export default function Recommendations() {
   const checkUserId = localStorage.getItem("uid");
   const checkUsername = localStorage.getItem("uname");
   const [recommend, setRecommend] = useState([]);
-
+  const averageRating = {};
+  const [avg, setAvg] = useState([]);
   const item_array = [];
+  var obj = {};
+
   useEffect(async () => {
     if (checkLogin && checkUsername) {
       const request1 = await axios.post(
@@ -30,23 +37,32 @@ export default function Recommendations() {
         }
       );
       const response2 = request2.data;
-
+      // console.log(response2);
+      //
       await Promise.all(
         response2.map(async (x) => {
           const request3 = await axios.get(
             `http://localhost:5000/novels/${x[0]}`,
             { params: { _limit: 3 }, withCredentials: true }
           );
+          // averageRating[x[0]] = x[1];
+          // averageRating.push(x[0]);
+          // console.log(x[0]);
+
           const response3 = request3.data[0];
+
+          averageRating[x[0]] = x[1];
           item_array.push(response3);
         })
       );
       setRecommend(item_array);
+      setAvg(averageRating);
+      // console.log(averageRating);
     }
   }, []);
-
+  // console.log(avg);
   const ListAllNovels = (item, idx) => {
-    console.log(item.item);
+    // console.log(item.item);
 
     return (
       <div
@@ -74,6 +90,7 @@ export default function Recommendations() {
               background: "gray",
               padding: "2px 4px",
               borderRadius: " 8px 0 3px 0",
+              fontSize: "1.6rem",
             }}
           >
             {item.item.status}
@@ -97,9 +114,18 @@ export default function Recommendations() {
           >
             {item.item.name}
           </div>
-          <div className="col-12 series-search-rating">{item.item.rating}</div>
+          <div className="col-12 series-search-rating average-rating">
+            {/* {console.log(averageRating)} */}
+
+            <p>
+              <ThumbUpIcon style={{ fontSize: "4rem", marginRight: "5px" }} />
+              {(Math.round(avg[item.item.id]) / 5) * 100}%
+              <br />
+              <p>Average {Math.round(avg[item.item.id])} of 5</p>
+            </p>
+          </div>
           <div className="col-12 series-search-description">
-            {item.item.description}
+            {/* {item.item.description} */}
           </div>
           <div
             className="col-12 genre-tags d-flex flex-row series-search-tags"
@@ -112,7 +138,7 @@ export default function Recommendations() {
               textOverflow: "ellipsis",
             }}
           >
-            <p>{item.item.genre_name}</p>
+            <p>Genre: {item.item.genre_name}</p>
           </div>
         </div>
       </div>
@@ -122,12 +148,13 @@ export default function Recommendations() {
   return (
     <div className="container recommendations ">
       <div className="col-12 recommendations-wrapper d-flex flex-row flex-wrap">
+        {/* {avg[45]} */}
         {recommend.map((x, idx) => {
           // console.log(x.id, ":", x.name);
-          while (idx < 6) {
+
+          if (idx < 10) {
             return <ListAllNovels item={x} key={x.id} />;
           }
-          // return <p key={x.id}>{x.id}</p>;
         })}
       </div>
     </div>

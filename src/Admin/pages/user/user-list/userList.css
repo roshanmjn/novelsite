@@ -1,68 +1,99 @@
-.userList{
-   flex: 5;
-   display:flex;
-   flex-direction: column;
-   align-items: center;
-   font-size: 16px ;
-   
+.userList {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
 }
-.userListHeader{
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
+.userListHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-   align-items: center;
-}
-
-.userListHeader a{
-   font-size: 18px;
+  align-items: center;
 }
 
-
+.userListHeader a {
+  font-size: 18px;
+}
 
 /*USER TABLE*/
-.userTable{
-   display: flex;
-   justify-content: center;   
+.userTable {
+  display: flex;
+  justify-content: center;
 }
 
-.userTableTable{
-   border-collapse: collapse;
-   max-width: 1100px;
-   width:100%;
-   margin: 2rem auto;
-   border-radius: 10px;
+.userTableTable {
+  border-collapse: collapse;
+  max-width: 1100px;
+  width: 100%;
+  margin: 2rem auto;
+  border-radius: 10px;
 }
-.userTableData th,td{
-   font-size: 17px !important;
+.userTableData th,
+td {
+  font-size: 17px !important;
 }
-.userTableHead, .userTableData{
-   padding: 8px;
-   border: 1px solid #ddd;
-   
-}
-
-.userTableData a{
-   list-style-type: none;
-   text-decoration: none;
-}
-.userEditButtonIcon,.userDeleteButtonIcon{
-   font-size: 30px !important;
-   margin-right: 10px;   
-}
-.userEditButtonIcon{
-   color:rgb(25, 98, 162) !important;   
-}
-.userDeleteButtonIcon{
-   color: rgb(200, 53, 53) !important;
+.userTableHead,
+.userTableData {
+  padding: 8px;
+  border: 1px solid #ddd;
 }
 
-.editForm{
-   /* border: 1px solid red; */
-   /* border-radius: 20px; */
-   padding: 10px 0;
+.userTableData a {
+  list-style-type: none;
+  text-decoration: none;
 }
-.editForm input{
-   font-size: 17px;
-   
+.userEditButtonIcon,
+.userDeleteButtonIcon {
+  font-size: 30px !important;
+  margin-right: 10px;
+}
+.userEditButtonIcon {
+  color: rgb(25, 98, 162) !important;
+}
+.userDeleteButtonIcon {
+  color: rgb(200, 53, 53) !important;
+}
+
+.editForm {
+  /* border: 1px solid red; */
+  /* border-radius: 20px; */
+  padding: 10px 0;
+}
+.editForm input {
+  font-size: 17px;
+}
+
+@media (min-width: 768px) {
+  .userTables {
+  }
+  .userTables-headings > th,
+  td {
+    font-size: 11px !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  .userTables-items .userEditButtonIcon,
+  .userDeleteButtonIcon {
+    font-size: 18px !important;
+    margin: 0;
+    padding: 0;
+  }
+}
+@media (min-width: 1400px) {
+  .userTables-headings > th,
+  td {
+    font-size: 20px !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  .userTables-items .userEditButtonIcon,
+  .userDeleteButtonIcon {
+    font-size: 30px !important;
+    margin: 0;
+    padding: 0;
+  }
 }

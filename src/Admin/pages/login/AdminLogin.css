@@ -1,61 +1,38 @@
-
-.login{
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   height: 100vh;
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
 }
-.loginWrapper{
-   margin-top: 15vh;
-   display: flex;
-   
+.admin-login-container {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(15, 54, 102, 1) 52%,
+    rgba(0, 20, 46, 1) 100%,
+    rgba(9, 9, 121, 1) 661%
+  );
+  height: 100vh;
+  width: 100vw;
 }
-
-.loginForm{
-   background-color: rgb(28, 11, 95);
-   border: 1px solid rgb(99, 99, 235);
-   border-radius: 1rem;
-   padding: 2rem;
+.admin-login-form {
+  padding: 10px;
+  border: 2px solid coral;
+  border-radius: 5px;
 }
-
-.loginFormForm{
-   display: flex;
-   flex-direction: column;
+.admin-login-title {
+  color: white;
 }
-
-.loginLabel{
-   font-size: 1.7rem;
-   font-weight: 500;
-   color: #fff !important;
+.admin-login-label {
+  color: white;
 }
-
-.loginInput{
-   width: 30rem;
-   font-size: 1.7rem;
-   padding: 1rem;   
-   border-radius: 10px;
-   border: 1px solid white !important;
-   margin-bottom: 3rem;
-   
+.admin-login-input {
+  font-size: 23px;
+  padding: 3px 5px;
+  border-radius: 5px;
 }
-.loginButton{
-   font-size: 2rem;
-   background-color: rgb(40, 18, 128);
-   color: white !important;
-   margin: 0 auto;
-   width:15rem;
-   height: 5.5rem;
-   border-radius: 10px;
-   border: 1px solid white;
-}
-
-/*!!!!!---ADMIN LAYOUT STYLING---!!!!!!*/
-.adminLayout{
-   display: flex;
-}
-
-.outletLayout{
-   flex:6;
-   margin: 0;
-   padding: 0px;
+.admin-login-button {
+  font-size: 20px;
+  padding: 8px 20px;
+  border-radius: 5px;
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import "./novel-item.css";
 
 // import { BookmarkAdd, BookmarkAdded, Star } from "@mui/icons-material";
@@ -18,6 +18,10 @@ const NovelItem = (props) => {
   const [rating, setRating] = useState(false);
   const [ratingData, setRatingData] = useState(null);
   const [hoverRating, setHoverRating] = useState(null);
+  const [chapters, setChapters] = useState([]);
+
+  const location = useLocation();
+
   // prettier-ignore
   const [novel, setNovel] = useState([{author: "",chapters: "",description: "",genre: "",id: "",image: "",name: "",rating: "",status: "",},]);
 
@@ -35,6 +39,18 @@ const NovelItem = (props) => {
       .get(`http://localhost:5000/novels/${id}`)
       .then((res) => {
         setNovel(res.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
+
+  //GET ALL CHAPTER FOR THE NOVEL ID
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/novels/${id}/chapter`)
+      .then((res) => {
+        setChapters(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -90,10 +106,10 @@ const NovelItem = (props) => {
         )
         .then((res) => {
           // console.log(res);
-          navigate(`/novel/${novel.id}/1`);
+          navigate(`/novel/${novel.id}/chapters`);
         });
     } else {
-      navigate(`/novel/${novel.id}/1`);
+      navigate(`/novel/${novel.id}/chapters`);
     }
   };
   // FUNCTION TO ADD BOOKMARK
@@ -141,10 +157,7 @@ const NovelItem = (props) => {
       className="novelItem container "
       style={{ border: "0px solid red", padding: "30px 0" }}
     >
-      <div
-        className="col-12 col-lg-8 mx-auto d-flex flex-row flex-wrap justify-content-between item-details"
-        // style={{ border: "1px solid blue" }}
-      >
+      <div className="col-12 col-lg-8 mx-auto d-flex flex-row flex-wrap justify-content-between item-details">
         <div
           className="col-12 col-lg-4"
           style={{ border: "0px solid green", marginBottom: "20px" }}
@@ -327,7 +340,17 @@ const NovelItem = (props) => {
                 </p>
               )
             ) : (
-              ""
+              <p>
+                Please{" "}
+                <Link
+                  to="/login"
+                  state={{ from: location }}
+                  style={{ textDecoration: "none" }}
+                >
+                  Login
+                </Link>{" "}
+                to Rate This Novel.{" "}
+              </p>
             )}
 
             {/*END RATING*/}
@@ -399,12 +422,19 @@ const NovelItem = (props) => {
             borderRadius: "10px",
           }}
         >
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>
-          <a href="#" className="col-6">
-            <div className="col-6">Chapter 1</div>
-          </a>
+          {chapters.map((chapter, index) => {
+            return (
+              <Link
+                to={`/novel/${id}/chapter-${index + 1}`}
+                className="col-6 border-bottom border-dark"
+                key={index}
+              >
+                <div className="col-6 ">
+                  {chapter.chapter_id}. {chapter.chapter_title}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ const userLoginController = (req, res) => {
   conn.query(
     `SELECT * FROM tbl_users WHERE username =${conn.escape(
       req.body.username
-    )};`,
+    )} OR email ='${req.body.username}';`,
     (err, result) => {
       if (err) {
         throw err;
@@ -90,11 +90,11 @@ const userLogoutController = (req, res) => {
 
 const userSignupController = (req, res, next) => {
   conn.query(
-    `SELECT username FROM tbl_users WHERE LOWER(username)=LOWER('${req.body.username}')`,
+    `SELECT username,email FROM tbl_users WHERE LOWER(username)=LOWER('${req.body.username}')`,
     (err, result) => {
       if (err) {
-        throw err;
-        res.send({ message: "err query" });
+        // throw err;
+        res.send(err);
       }
       if (result && result.length > 0) {
         //error
@@ -111,16 +111,18 @@ const userSignupController = (req, res, next) => {
         // //uuid.v4() for user id
 
         conn.query(
-          `INSERT INTO tbl_users(username,password,created_on)values(${conn.escape(
+          `INSERT INTO tbl_users(username,password,full_name,email,created_on)values(${conn.escape(
             req.body.username
             // )},'${hash}',now());`,
-          )},'${req.body.password}',now());`,
+          )},'${req.body.password}','${req.body.fullname}','${
+            req.body.email
+          }',now());`,
           (err, result) => {
             if (err) {
-              throw err;
-              return res.status(400).send({ message: err });
+              // throw err;
+              return res.status(400).send(err);
             }
-            return res.status(201).send({ message: "Registered !" });
+            return res.status(200).send({ message: "Registered !" });
           }
         );
 

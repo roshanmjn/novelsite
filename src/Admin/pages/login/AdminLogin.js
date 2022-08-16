@@ -31,7 +31,6 @@ function AdminLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(input);
     try {
       const response = await axios.post(
         "http://localhost:5000/admin/login",
@@ -41,11 +40,6 @@ function AdminLogin() {
       if (response.status == 200) {
         navigate("/admin");
       }
-      // if (window.history.state && window.history.idx > 0) {
-      //   navigate(-1);
-      // } else {
-      //   navigate("/", { replace: true });
-      // }
     } catch (err) {
       if (err.response) {
         toast.error(err.response.data.message);
@@ -57,40 +51,57 @@ function AdminLogin() {
   };
 
   return (
-    <div className="container">
-      <ToastContainer position="top-center" autoClose={2000} />
-      <div className=" col-12 login">
-        <div className="col-10 d-flex align-items-center flex-column mt-5">
-          <h1 className="display-2 f">Login</h1>
-        </div>
+    <div className="admin-login-container">
+      <div className="container">
+        <ToastContainer position="top-center" autoClose={2000} />
+        <div
+          className="row d-flex justify-content-center "
+          style={{ margin: "0", padding: "0" }}
+        >
+          <div className="col-12 col-lg-8 col-xl-6 d-flex flex-column align-items-center">
+            <div className="col mb-5 text-center">
+              <h3 className="display-5 admin-login-title">Novel Site</h3>
+              <h2 className=" display-2 admin-login-title">Admin Login</h2>
+            </div>
+            <div className="col-10 col-sm-8 col-lg-6 shadow-sm admin-login-form">
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label
+                    className="form-label admin-login-label"
+                    htmlFor="uname"
+                  >
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    id="uname"
+                    class="form-control admin-login-input"
+                    onChange={handleChange}
+                  />
+                </div>
 
-        <div className="loginWrapper">
-          <div className="loginForm">
-            <form className="loginFormForm" onSubmit={handleSubmit}>
-              <label htmlFor="uname" className="loginLabel">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                id="uname"
-                className="loginInput"
-                onChange={handleChange}
-              />
-              <label htmlFor="pwd" className="loginLabel">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                id="pwd"
-                className="loginInput"
-                onChange={handleChange}
-              />
-              <button className="loginButton">Login</button>
-            </form>
+                <div className="mb-3">
+                  <label className="form-label admin-login-label" htmlFor="pwd">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    class="form-control admin-login-input"
+                    id="pwd"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col d-flex justify-content-center">
+                  <button className="btn btn-primary admin-login-button">
+                    Login
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

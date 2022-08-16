@@ -12,12 +12,14 @@ const Novels = () => {
   TabTitle("Novels");
   const backendRoute = "http://localhost:5000/uploads/";
   const [novel, setNovel] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
   const navigate = useNavigate();
 
   useEffect(async () => {
     const response = await axios.get("http://localhost:5000/novels");
     if (response.status === 200) {
-      // console.log(response.data);
+      console.log(response.data);
       setNovel(response.data);
     }
   }, []);
@@ -26,8 +28,6 @@ const Novels = () => {
       <div
         className="col-12 col-lg-6 d-flex flex-row series-search-item"
         key={idx}
-
-        // style={{ boxShadow: "1px 1px 2px 2px gray" }}
       >
         <div
           className="col-4 series-search-image"
@@ -50,6 +50,7 @@ const Novels = () => {
               background: "gray",
               padding: "2px 4px",
               borderRadius: " 8px 0 3px 0",
+              fontSize: "1.6rem",
             }}
           >
             {item.item.status}
@@ -94,17 +95,37 @@ const Novels = () => {
       </div>
     );
   };
+  const searchHandler = (searchTerm) => {
+    // console.log(searchTerm);
+    setSearchTerm(searchTerm);
+    if (searchTerm !== "") {
+      const newItemList = novel.filter((each) => {
+        return Object.values(each)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      });
+      // console.log("x:", newItemList);
+      setSearchResult(newItemList);
+    } else {
+      setSearchResult(novel);
+    }
+  };
   return (
     <>
       <div className="container series-container ">
-        <SortMenu />
+        <SortMenu searchKeyword={searchHandler} />
         {/* ---second row start FOR SEARCH--- */}
         <div className="col-12 series-search">
           {/* item-start */}
           <div className="col-12 series-search-wrapper d-flex flex-row flex-wrap">
-            {novel.map((item, idx) => {
-              return <ListAllNovels item={item} image={img1} key={idx} />;
-            })}
+            {searchTerm.length < 1
+              ? novel.map((item, idx) => {
+                  return <ListAllNovels item={item} key={idx} />;
+                })
+              : searchResult.map((item, idx) => {
+                  return <ListAllNovels item={item} key={idx} />;
+                })}
           </div>
         </div>
       </div>

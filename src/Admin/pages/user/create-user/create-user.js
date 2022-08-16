@@ -89,13 +89,13 @@ export default function CreateUser() {
     <div className="createUser">
       <div className="createUserWrapper">
         <div className="createUserHeader">
-          <h5 className="display-5">Create user</h5>
+          <h2>Create user</h2>
         </div>
-        <div className="createUserForm" style={{ marginTop: "50px" }}>
+        <div className="createUserForm">
           {/* new */}
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="fullname" className="form-label createUserLabel">
+            <div className="">
+              <label htmlFor="fullname" className="createUserLabel">
                 Full Name
               </label>
               <input
@@ -108,8 +108,8 @@ export default function CreateUser() {
                 value={fullname}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="addr" className="form-label createUserLabel">
+            <div className="">
+              <label htmlFor="addr" className="createUserLabel">
                 Address
               </label>
               <input
@@ -122,8 +122,8 @@ export default function CreateUser() {
                 value={address}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label createUserLabel">
+            <div className="">
+              <label htmlFor="email" className="createUserLabel">
                 Email
               </label>
               <input
@@ -136,8 +136,8 @@ export default function CreateUser() {
                 value={email}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label createUserLabel">
+            <div className="">
+              <label htmlFor="username" className="createUserLabel">
                 Username
               </label>
               <input
@@ -150,8 +150,8 @@ export default function CreateUser() {
                 value={username}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="pwd" className="form-label createUserLabel">
+            <div className="">
+              <label htmlFor="pwd" className="createUserLabel">
                 Password
               </label>
               <input
@@ -164,35 +164,31 @@ export default function CreateUser() {
                 value={password}
               />
             </div>
-            <div className="mb-3 ">
-              <label htmlFor="gender" className="form-label createUserLabel">
+            <div className="">
+              <label htmlFor="gender" className="createUserLabel">
                 Gender
               </label>
-              <div className="form-check">
-                <input
-                  type="radio"
-                  name="gender"
-                  className="form-check-input"
-                  id="male"
-                  onChange={handleInputChange}
-                  value="male"
-                />
-                <label htmlFor="male" className="form-check-label">
-                  Male
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  type="radio"
-                  name="gender"
-                  className="form-check-input"
-                  id="female"
-                  onChange={handleInputChange}
-                  value="female"
-                />
-                <label htmlFor="female" className="form-check-label">
-                  Female
-                </label>
+              <div className="d-flex flex-row justify-content-start align-items-center">
+                <div className="form-gender">
+                  <input
+                    type="radio"
+                    name="gender"
+                    id="male"
+                    onChange={handleInputChange}
+                    value="male"
+                  />
+                  <label htmlFor="male">Male</label>
+                </div>
+                <div className="form-gender">
+                  <input
+                    type="radio"
+                    name="gender"
+                    id="female"
+                    onChange={handleInputChange}
+                    value="female"
+                  />
+                  <label htmlFor="female">Female</label>
+                </div>
               </div>
             </div>
 
@@ -200,13 +196,13 @@ export default function CreateUser() {
               <button type="submit" className="btn btn-primary">
                 Create
               </button>
-              <span
+              <button
                 className="btn btn-danger"
                 onClick={() => navigate("/admin/users")}
                 style={{ fontSize: "25px !important", marginLeft: "18em" }}
               >
                 Cancel
-              </span>
+              </button>
             </div>
           </form>
         </div>
